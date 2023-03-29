@@ -1,0 +1,405 @@
+
+
+
+/* Css */
+
+.layout{
+    @font-face {
+      font-family: "poppins";
+      src: url("/Poppins/Poppins-Bold.ttf") !important;
+    }
+  
+    font-family: poppins;
+  }
+  /* nav{
+    background-color: rgb(255, 255, 255);
+    height: 3em;
+    z-index: 99;
+    position: fixed;
+    width: 100%;
+    top: 0;
+  }
+  ul{
+    display: flex;
+    justify-content: space-between;
+    width: 56.5em;
+    background-color: rgb(255, 255, 255);
+    height: 3em;
+    align-items: center;
+    
+  
+  }
+  li{
+    list-style: none;
+    color: rgb(39, 19, 85) !important;
+    
+  }
+
+  
+  .about{
+    margin-top: 15em;
+  } */
+
+  nav{
+    margin-right: 2em;
+  }
+  nav ul li a{
+    color: rgb(39, 19, 85) !important;
+  }
+  a{
+    text-decoration: none;
+    text-align: center;
+    color: white !important;
+    font-size: 15px; 
+    font-weight: 500 !important;
+  }
+  
+  /* Bannière d'accueil */
+  .bienvenu{
+    transform: translateY(12em);
+    color: white;
+  
+  }
+  /* Bannière beats */
+  .header2{
+    background-image: url("../../public/btm2.png");
+    height: 250px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    width: 100%;
+  
+  }
+  .beats{
+    padding-top: 2.8em;
+  }
+  .allbeats{
+    margin-top: 1em;
+  }
+  
+  /* Section contenant l'image de fond */
+  .banner{
+    background-image: url("../../public/btm.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  width: 100%;
+    height: 100vh;
+  }
+  
+  /* La section call-to-action */
+  .callToAction{
+    display: flex;
+    justify-content: center;
+    
+  }
+  .callToAction .btn{
+    margin: 1em 1em;
+  }
+  .callToAction .btn1{
+    background-color: rgb(81, 0, 255) !important;
+    color: white !important;
+    border-radius: 3px;
+    border: none !important;
+  }
+  .callToAction .btn1:hover{
+    background-color: white !important;
+    color: rgb(81, 0, 255) !important;
+  
+  }
+  .callToAction .btn2{
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(81, 0, 255) !important;
+    border-radius: 3px;
+    border: none !important;
+  }
+  .callToAction .btn2:hover{
+    background-color: rgb(81, 0, 255) !important;
+    color: white !important;
+  
+  }
+  
+  /* Body */
+  
+  .card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right: 15em;
+    background-color:#FFF;
+    width: 270px;
+    margin-right: 5em;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+  .card > .card-inner {
+    padding:10px;
+  }
+  .card .header h2, h3 {
+    margin-bottom: 0px;
+    margin-top:0px;
+  }
+  .card .header {
+    margin-bottom:5px;
+  }
+  .card img{
+    width: 270px;
+  }
+  .card .header h3{
+    font-size: 19px !important;
+  }
+  .card .content p{
+    margin: 0;
+    padding: 0;
+  }
+
+  .section1{
+    margin-top: 3em;
+  }
+  .section1 h2{
+    font-weight: 650;
+  }
+  .section2 h2{
+    font-weight: 650;
+    margin-top: 1.5em;
+  }
+  .section3 h2{
+    font-weight: 650;
+    margin-top: 1.5em;
+  }
+  .section1 .btn3{
+    background-color: rgb(81, 0, 255);
+    color: white;
+    border-radius: 3px;
+    border: none !important;
+    width: 34%;
+    padding: 2px !important;
+  }
+  .section2 .btn3{
+    background-color: rgb(81, 0, 255);
+    color: white;
+    border-radius: 3px;
+    border: none !important;
+    width: 34%;
+    padding: 2px !important;
+  }
+  .section3 .btn3{
+    background-color: rgb(81, 0, 255);
+    color: white;
+    border-radius: 3px;
+    border: none !important;
+    width: 30%;
+  }
+  .section4 .btn3{
+    background-color: rgb(81, 0, 255);
+    color: white;
+    border-radius: 3px;
+    border: none !important;
+    width: 15%;
+  }
+  .section4 h2{
+    font-weight: 650;
+    margin-top: 1.5em;
+  }
+  .section5 h2{
+    font-weight: 650;
+    margin-top: 1.5em;
+  }
+
+  .foot{
+    background-color: rgb(10, 6, 17);
+  }
+  
+  
+  /* -------------------responsive------------------- */
+  
+  @media screen  and (max-width: 600px) {
+    
+    .layout{
+      @font-face {
+        font-family: "poppins";
+        src: url("/Poppins/Poppins-Bold.ttf");
+      }
+    
+      font-family: poppins;
+    }
+    nav{
+      background-color: rgb(255, 255, 255);
+      height: 3em;
+      z-index: 99;
+      position: fixed;
+      width: 100%;
+      top: 0;
+    }
+    ul{
+      display: flex;
+      justify-content: space-between;
+      width: 56.5em;
+      background-color: rgb(255, 255, 255);
+      height: 3em;
+      align-items: center;
+      margin-left: 25em;
+    
+    }
+    li{
+      list-style: none;
+      
+    }
+    li a{
+      text-decoration: none;
+      text-align: center;
+      color: rgb(39, 19, 85);
+      padding: 12px 13px;
+      font-size: 15px;
+    }
+    
+    .about{
+      margin-top: 15em;
+    }
+    
+    /* Bannière d'accueil */
+    .bienvenu{
+      transform: translateY(6em);
+      color: white;
+    
+    }
+    /* Bannière beats */
+    .header2{
+      background-image: url("../public/btm2.png");
+      height: 250px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -1;
+      width: 100%;
+    
+    }
+    .beats{
+      padding-top: 2.8em;
+    }
+    .allbeats{
+      margin-top: 1em;
+    }
+    
+    /* Section contenant l'image de fond */
+    .banner{
+      background-image: url("../public/btm.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 70vh;
+  
+      margin: 0 !important;
+    }
+    
+    /* La section call-to-action */
+    .callToAction{
+      display: flex;
+      flex-direction: column; 
+    }
+    .callToAction .btn{
+      margin: 1em 1em;
+      font-size: 14px;
+    }
+    .callToAction .btn1{
+      background-color: rgb(81, 0, 255);
+      color: white;
+      border-radius: 3px;
+      border: none !important;
+      
+    }
+    .callToAction .btn1:hover{
+      background-color: white;
+      color: rgb(81, 0, 255);
+      
+    
+    }
+    .callToAction .btn2{
+      background-color: rgb(255, 255, 255);
+      color: rgb(81, 0, 255);
+      border-radius: 3px;
+      border: 1px solid rgb(81, 0, 255) !important;
+      font-size: 14px;
+      margin-top: -0.4em;
+    }
+    .callToAction .btn2:hover{
+      background-color: rgb(81, 0, 255);
+      color: white;
+     
+    
+    }
+    
+    /* Body */
+    
+    .section1{
+      margin-top: 13em;
+      border: 1px solid red;
+      box-sizing: border-box !important;
+      padding: 0 !important;
+    }
+    .section1 h2{
+      font-weight: 650;
+    }
+    .section2 h2{
+      font-weight: 650;
+      margin-top: 1.5em;
+    }
+    .section3 h2{
+      font-weight: 650;
+      margin-top: 1.5em;
+    }
+    .section1 .btn3{
+      background-color: rgb(81, 0, 255);
+      color: white;
+      border-radius: 3px;
+      border: none !important;
+      width: 34%;
+      padding: 2px !important;
+    }
+    .section2 .btn3{
+      background-color: rgb(81, 0, 255);
+      color: white;
+      border-radius: 3px;
+      border: none !important;
+      width: 34%;
+      padding: 2px !important;
+    }
+    .section3 .btn3{
+      background-color: rgb(81, 0, 255);
+      color: white;
+      border-radius: 3px;
+      border: none !important;
+      width: 25%;
+    }
+    .section4 .btn3{
+      background-color: rgb(81, 0, 255);
+      color: white;
+      border-radius: 3px;
+      border: none !important;
+      width: 15%;
+    }
+    .section4 h2{
+      font-weight: 650;
+      margin-top: 1.5em;
+    }
+    .section5 h2{
+      font-weight: 650;
+      margin-top: 1.5em;
+    }
+    .card{
+      border-radius: 3px !important;
+      border: 1px solid green !important;
+      width: 100% !important;
+    }
+    .card img{
+      border-radius: 4px !important;
+      border: none !important;
+      width: 500px !important;
+    }
+  
+  
+  }
