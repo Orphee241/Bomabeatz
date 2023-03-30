@@ -35,7 +35,7 @@
         @routes
         
         @vite('resources/js/app.js') @inertiaHead
-
+        @vite('resources/css/app.css') @inertiaHead
         @vite('resources/assets/css/style.css') @inertiaHead
         @vite('resources/assets/js/main.js') @inertiaHead
         @vite('resources/assets/vendor/bootstrap/css/bootstrap.min.css') @inertiaHead
@@ -46,18 +46,19 @@
         @vite('resources/assets/vendor/remixicon/remixicon.css') @inertiaHead
         @vite('resources/assets/vendor/simple-datatables/style.css') @inertiaHead
 
+        
+    </head>
+    <body >
+        
+        @inertia
+
+
         @vite('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
         @vite('resources/assets/vendor/apexcharts/apexcharts.min.js') @inertiaHead
         @vite('resources/assets/vendor/tinymce/tinymce.min.js') @inertiaHead
         @vite('resources/assets/vendor/chart.js/chart.umd.js') @inertiaHead
         @vite('resources/assets/vendor/echarts/echarts.min.js') @inertiaHead
         @vite('resources/assets/vendor/quill/quill.min.js') @inertiaHead
-        
-        
-    </head>
-    <body >
-        
-        @inertia
    
     </body>
 </html>
