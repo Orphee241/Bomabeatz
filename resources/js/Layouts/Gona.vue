@@ -25,7 +25,8 @@ export default{
 <div class="d-flex align-items-center justify-content-between">
   <a href="index.html" class="logo d-flex align-items-center">
     <img src="assets/img/logo.png" alt="">
-    <h3 style="color: rgb(39, 19, 85); font-weight: 800; letter-spacing: -2.8px;" class="">Bomabeatz</h3>
+    
+    <h3 style="color: rgb(39, 19, 85); font-weight: 800; letter-spacing: -2.8px;" class=""><i style="color: rgb(39, 19, 85); margin-right: -3px;" class="bx bxs-speaker"></i>omabeatz</h3>
   </a>
 </div><!-- End Logo -->
 

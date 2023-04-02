@@ -51,4 +51,8 @@ class ClientController extends Controller
         return inertia("Vip", ["pageTitle" => "Bomabeatz | VIP"]); 
     }
 
+    public function pricing(){
+        return inertia("Pricing", ["pageTitle" => "Bomabeatz | VIP"]); 
+    }
+
 }

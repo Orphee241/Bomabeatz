@@ -19,7 +19,7 @@
       <div class="about container">
         <div class="row">
           <div class="col-lg-8">
-            <h1 style="font-weight: 700; color: rgb(39, 19, 85); margin-bottom: 1em;">A propos de nous</h1>
+            <h2 style="font-weight: 700; color: rgb(39, 19, 85); margin-bottom: 1em;">A propos de nous</h2>
             <div style="border: 1px solid rgb(236, 225, 253);" class="card">
             <div class="card-body">
               <div class="accordion accordion-flush" id="faq-group-2">

@@ -19,19 +19,19 @@
 <template>
       <div className="banner container-fluid">
         <div className="bienvenu container">
-          <h1 style="font-weight: 700;" className=" text-center">Bienvenue sur Bomabeatz</h1>
+          <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Bomabeatz</h2>
           <h3 className="text-center">La plateforme qui te permet d'acheter ou de vendre ton beat.</h3>
           <h5 className="text-center">Bomabeatz est une plateforme musicale africaine où il est possible de télécharger gratuitement, d'acheter ou de vendre ses productions musicales.</h5>
           <div className="callToAction">
           <InertiaLink :href="route('beats')" class="btn btn1">Je souhaite découvrir les beats</InertiaLink>
-            <InertiaLink :href="route('sellbeat')" class="btn btn2">Je souhaite vendre des beats</InertiaLink>
+            <InertiaLink :href="route('pricing')" class="btn btn2">Je souhaite vendre des beats</InertiaLink>
           </div>
         </div>
       </div>
         <!-- Corps -->
 
         <div class="container section1">
-          <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Les beats du moments</h2>
+          <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-speaker"></i>Les beats du moments</h2>
           <div class="row">
         
           <div class="col-sm-3">
@@ -44,10 +44,22 @@
                   <h3 >OKLM au Qwat</h3>
                 </div>
                 <div class="content">
-                  <p>Licence : F</p>
-                  <p>Prix : Gratuit</p>
-                  <p>Beatmaker : GONA</p>
-                  <p>Publié le : 15/01/2023</p>
+                  <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : F</p>
+                  <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : Gratuit</p>
+                  <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : GONA</p>
+                  <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : 15/01/2023</p>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <p class="icon">
+                        <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
+                      </p>
+                    </div>
+                    <div class="col-lg-2">
+                      <p class="icon">
+                        <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
+                      </p>
+                    </div>
+                  </div>
                   <a href="#" class=" btn btn3">Ecouter</a>
                 </div>
               </div>
@@ -117,7 +129,7 @@
         <!-- Section 2 -->
 
         <div class="container section2">
-          <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Nouveaux beats</h2>
+          <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-speaker"></i>Nouveaux beats</h2>
           <div class="row">
         
         <div class="col-sm-3">
@@ -204,7 +216,7 @@
 
         <div class="container section3">
           <div class="row">
-            <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Je suis beatmaker/producteur</h2>
+            <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bx-speaker"></i>Je suis beatmaker/producteur</h2>
             <div class="col-lg-8">
             <p><strong>Bomabeatz</strong> vous donne la possibilité de <strong>vendre vos beats</strong> (instrumentales). <br>
               Vous êtes un <strong> beatmaker, un producteur </strong> de musique ? <br> Sachez que vous êtes au
@@ -215,7 +227,7 @@
               En effet, Bomabeatz perçoit <strong>10%</strong> sur chacune de vos ventes et vous reverse le reste.
             </p>
             <p>Si vous êtes intéressé, rejoignez-nous.</p>
-            <InertiaLink class="btn3" href="/beats">Je vend mes beats sur Bomabeatz</InertiaLink>
+            <InertiaLink class="btn3" :href="route('pricing')">Je vends mes beats sur Bomabeatz</InertiaLink>
           </div>
           <div class="col-lg-4">
             <p>
@@ -228,7 +240,7 @@
         <!-- Section 4 -->
 
         <div className="container section4">
-          <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Devenir VIP</h2>
+          <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-crown"></i>Devenir VIP (réservé aux artistes)</h2>
           <div className="row">
             <div class="col-lg-12">
             <p>Devenez VIP et :</p>
@@ -243,7 +255,7 @@
         <!-- Section 5 -->
 
         <div className="container section5">
-          <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Top beatmakers</h2>
+          <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-user"></i>Top beatmakers</h2>
           <div className="row">
             <p>Les beatmakers qui nous font confiance</p>
           </div>
@@ -302,7 +314,7 @@
           </div>
           <!--------------- Contact ----------------->
           <div class="row">
-            <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Nous contacter</h2>
+            <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bx-support"></i>Nous contacter</h2>
           <section class="section contact mb-5">
           <div class="row gy-4">
             <div class="col-lg-6" >

@@ -45,11 +45,20 @@
         @vite('resources/assets/vendor/quill.bubble.css') @inertiaHead
         @vite('resources/assets/vendor/remixicon/remixicon.css') @inertiaHead
         @vite('resources/assets/vendor/simple-datatables/style.css') @inertiaHead
+        @vite('resources/assets/vendor/simple-datatables/style.css') @inertiaHead
 
-        
+        {{-- Assets 2 --}}
+        @vite('resources/assets2/vendor/bootstrap/css/bootstrap.min.css') @inertiaHead
+        @vite('resources/assets2/vendor/bootstrap-icons/bootstrap-icons.css') @inertiaHead
+        {{-- @vite('resources/assets2/vendor/aos/aos.css') @inertiaHead --}}
+        @vite('resources/assets2/vendor/glightbox/css/glightbox.min.css') @inertiaHead
+        @vite('resources/assets2/vendor/swiper/swiper-bundle.min.css') @inertiaHead
+        @vite('resources/assets2/css/main.css') @inertiaHead
+      
     </head>
     <body >
         
+        {{-- Rendu du body --}}
         @inertia
 
 
@@ -59,6 +68,17 @@
         @vite('resources/assets/vendor/chart.js/chart.umd.js') @inertiaHead
         @vite('resources/assets/vendor/echarts/echarts.min.js') @inertiaHead
         @vite('resources/assets/vendor/quill/quill.min.js') @inertiaHead
+
+        {{-- Assets2 --}}
+
+        @vite('resources/assets2/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
+        @vite('resources/assets2/vendor/aos/aos.js') @inertiaHead
+        @vite('resources/assets2/vendor/glightbox/js/glightbox.min.js') @inertiaHead
+        @vite('resources/assets2/vendor/purecounter/purecounter_vanilla.js') @inertiaHead
+        @vite('resources/assets2/vendor/swiper/swiper-bundle.min.js') @inertiaHead
+        @vite('resources/assets2/vendor/isotope-layout/isotope.pkgd.min.js') @inertiaHead
+        @vite('resources/assets2/vendor/php-email-form/validate.js') @inertiaHead
+        @vite('resources/assets2/js/main.js') @inertiaHead
    
     </body>
 </html>

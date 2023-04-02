@@ -29,3 +29,4 @@ Route::get('/signup', [ClientController::class, "signup"])->name("signup");
 Route::get('/login', [ClientController::class, "login"])->name("login");
 Route::get('/contact', [ClientController::class, "contact"])->name("contact");
 Route::get('/about', [ClientController::class, "about"])->name("about");
+Route::get('/pricing', [ClientController::class, "pricing"])->name("pricing");

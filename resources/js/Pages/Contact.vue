@@ -16,7 +16,7 @@
     
   <div class="container-fluid">
     <div class="container">
-      <h1 style="font-weight: 700; color: rgb(39, 19, 85); margin-top: 2.5em;">Contactez-nous</h1>
+      <h2 style="font-weight: 700; color: rgb(39, 19, 85); margin-top: 2.5em;"><i style="color: rgb(39, 19, 85)" class="bx bx-support"></i>Contactez-nous</h2>
     <!--------------- Contact ----------------->
     <div class="row">
           <section class="section contact mb-5">

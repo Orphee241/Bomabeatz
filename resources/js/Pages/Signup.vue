@@ -14,7 +14,7 @@
 
 <template>
 
-<main>
+<main disabled>
     <div class="container">
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
@@ -49,6 +49,15 @@
                       <input style="border: 1px solid rgb(39, 19, 85);" type="email" name="email" class="form-control" id="yourEmail" required>
                     </div>
 
+                  <div class="col-sm-12">
+                    <label style="color: rgb(39, 19, 85);" class=" col-form-label">Statut</label>
+                    <select  style="border: 1px solid rgb(39, 19, 85);" class="form-select" aria-label="Default select example">
+                      <option selected disabled>Vous êtes...</option>
+                      <option value="1">Artiste</option>
+                      <option value="2">Beatmaker</option>
+                    </select>
+                  </div>
+
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="yourPassword" class="form-label">Mot de passe</label>
                       <input style="border: 1px solid rgb(39, 19, 85);" type="password" name="pass" class="form-control" id="yourPassword" required>
@@ -63,7 +72,7 @@
                       <button style="background-color: rgb(39, 19, 85); border: none;" class="btn btn-primary w-100" type="submit">Je crée mon compte</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0"><a style="color: rgb(39, 19, 85);" :href="route('login')">J'ai déja un compte</a></p>
+                      <p class="small mb-0"><InertiaLink style="color: rgb(39, 19, 85);" :href="route('login')">J'ai déja un compte</InertiaLink></p>
                     </div>
                   </form>
 
