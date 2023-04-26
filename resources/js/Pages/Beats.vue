@@ -1,18 +1,6 @@
-<script setup>
-  import Gona from "../Layouts/Gona.vue";
-
-  import {InertiaLink} from "@inertiajs/inertia-vue3";
-
-</script>
-
-<script>
-   export default{
-    layout: Gona,
-
-  }
-</script>
 
 <template>
+      <Head title="Tous les beats" />
         <div className="header2">
         </div>
         <div  className="container-fluid px-5">
@@ -183,3 +171,18 @@
         </div>
       </div>
 </template>
+
+<script>
+  import { Head } from "@inertiajs/inertia-vue3";
+  import { Link } from "@inertiajs/inertia-vue3";
+
+   export default {
+    props:{
+      beatmakers: Object,
+    },
+    components: {
+      Head, Link
+    }
+  }  
+
+</script>

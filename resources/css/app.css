@@ -169,9 +169,7 @@
   .section1{
     margin-top: 3em;
   }
-  .section1 h2{
 
-  }
   .section2 h2{
     margin-top: 1.5em;
   }
@@ -237,8 +235,20 @@
   .foot{
     background-color: rgb(10, 6, 17);
   }
+
+  /* Buy-btn */
+  .buy-btn:hover{
+    cursor: pointer;
+  }  
   
-  
+  .labelModal{
+    text-align: left !important;
+  }
+
+  /* ------------input------------------ */
+  input, select, textarea{
+    border: 1px solid rgb(39, 19, 85) !important;
+  }
   /* -------------------responsive------------------- */
   
   @media screen  and (max-width: 600px) {
@@ -301,9 +311,7 @@
       width: 100%;
     
     }
-    .beats{
-      
-    }
+
     .allbeats{
       margin-top: 1em;
     }

@@ -957,7 +957,6 @@
   padding: 10px 0;
   display: flex;
   color: rgb(44, 29, 63);
-  align-items: center;
 }
 
 .pricing .ul i {
@@ -980,7 +979,7 @@
 
 .pricing .buy-btn {
   display: inline-block;
-  padding: 10px 40px;
+  padding: 6px 20px;
   border-radius: 50px;
   color: rgb(39, 19, 85);
   border: 1px solid rgb(39, 19, 85);

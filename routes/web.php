@@ -30,3 +30,4 @@ Route::get('/login', [ClientController::class, "login"])->name("login");
 Route::get('/contact', [ClientController::class, "contact"])->name("contact");
 Route::get('/about', [ClientController::class, "about"])->name("about");
 Route::get('/pricing', [ClientController::class, "pricing"])->name("pricing");
+Route::post('/user_signup', [ClientController::class, "user_signup"])->name("user_signup");

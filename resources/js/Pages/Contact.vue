@@ -1,21 +1,10 @@
-<script setup>
-  import Gona from "../Layouts/Gona.vue";
 
-  import {InertiaLink} from "@inertiajs/inertia-vue3";
-
-</script>
-
-<script>
-   export default{
-    layout: Gona,
-
-  }
-</script>
 
 <template>
     
   <div class="container-fluid">
     <div class="container">
+      <Head title="Contactez-nous" />
       <h2 style="font-weight: 700; color: rgb(39, 19, 85); margin-top: 2.5em;"><i style="color: rgb(39, 19, 85)" class="bx bx-support"></i>Contactez-nous</h2>
     <!--------------- Contact ----------------->
     <div class="row">
@@ -56,3 +45,21 @@
   </div>
 
 </template>
+
+<script>
+  import Gona from "../Layouts/Gona.vue";
+  import { Head } from "@inertiajs/inertia-vue3";
+  import { Link } from "@inertiajs/inertia-vue3";
+
+
+   export default {
+    props:{
+      beatmakers: Object,
+    },
+    layout: Gona,
+    components: {
+      Head, Link
+    }
+  }  
+
+</script>

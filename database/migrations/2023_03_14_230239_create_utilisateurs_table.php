@@ -18,9 +18,9 @@ return new class extends Migration
                 $table->id();
                 $table->string("pseudo");
                 $table->string("email");
+                $table->string("statut");
                 $table->string("mdp");
                 $table->string("confirmer_mdp");
-                $table->datetime("date");
                 $table->timestamps();
             });
         }

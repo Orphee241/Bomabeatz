@@ -6,6 +6,8 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         {{-- Swiffy--}}
         <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
         <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -34,6 +36,7 @@
         {{-- Ziggy --}}
         @routes
         
+
         @vite('resources/js/app.js') @inertiaHead
         @vite('resources/css/app.css') @inertiaHead
         @vite('resources/assets/css/style.css') @inertiaHead

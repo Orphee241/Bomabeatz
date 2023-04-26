@@ -1,30 +1,15 @@
-<script setup>
-  import Gona from "../Layouts/Gona.vue";
-  import {InertiaLink} from "@inertiajs/inertia-vue3";
 
-  defineProps({
-      beatmakers: Object,
-    });
-
-</script>
-
-<script>
-   export default {
-    layout: Gona,
-   
-
-  }  
-</script>
 
 <template>
+  <Head title="Bienvenue sur notre plateforme" />
       <div className="banner container-fluid">
         <div className="bienvenu container">
           <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Bomabeatz</h2>
           <h3 className="text-center">La plateforme qui te permet d'acheter ou de vendre ton beat.</h3>
           <h5 className="text-center">Bomabeatz est une plateforme musicale africaine où il est possible de télécharger gratuitement, d'acheter ou de vendre ses productions musicales.</h5>
           <div className="callToAction">
-          <InertiaLink :href="route('beats')" class="btn btn1">Je souhaite découvrir les beats</InertiaLink>
-            <InertiaLink :href="route('pricing')" class="btn btn2">Je souhaite vendre des beats</InertiaLink>
+          <Link :href="route('beats')" class="btn btn1">Je souhaite découvrir les beats</Link>
+            <Link :href="route('pricing')" class="btn btn2">Je souhaite vendre des beats</Link>
           </div>
         </div>
       </div>
@@ -79,7 +64,7 @@
                   <p>Prix : Gratuit</p>
                   <p>Beatmaker : GONA</p>
                   <p>Publié le : 15/01/2023</p>
-                  <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                  <Link href="#" class=" btn btn3">Ecouter</Link>
                 </div>
               </div>
             </div>
@@ -98,7 +83,7 @@
                   <p>Prix : Gratuit</p>
                   <p>Beatmaker : GONA</p>
                   <p>Publié le : 15/01/2023</p>
-                  <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                  <Link href="#" class=" btn btn3">Ecouter</Link>
                 </div>
               </div>
             </div>
@@ -117,7 +102,7 @@
                   <p>Prix : Gratuit</p>
                   <p>Beatmaker : GONA</p>
                   <p>Publié le : 15/01/2023</p>
-                  <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                  <Link href="#" class=" btn btn3">Ecouter</Link>
                 </div>
               </div>
             </div>
@@ -146,7 +131,7 @@
                 <p>Prix : Gratuit</p>
                 <p>Beatmaker : GONA</p>
                 <p>Publié le : 15/01/2023</p>
-                <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                <Link href="#" class=" btn btn3">Ecouter</Link>
               </div>
             </div>
           </div>
@@ -165,7 +150,7 @@
                 <p>Prix : Gratuit</p>
                 <p>Beatmaker : GONA</p>
                 <p>Publié le : 15/01/2023</p>
-                <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                <Link href="#" class=" btn btn3">Ecouter</Link>
               </div>
             </div>
           </div>
@@ -184,7 +169,7 @@
                 <p>Prix : Gratuit</p>
                 <p>Beatmaker : GONA</p>
                 <p>Publié le : 15/01/2023</p>
-                <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                <Link href="#" class=" btn btn3">Ecouter</Link>
               </div>
             </div>
           </div>
@@ -203,7 +188,7 @@
                 <p>Prix : Gratuit</p>
                 <p>Beatmaker : GONA</p>
                 <p>Publié le : 15/01/2023</p>
-                <InertiaLink href="#" class=" btn btn3">Ecouter</InertiaLink>
+                <Link href="#" class=" btn btn3">Ecouter</Link>
               </div>
             </div>
           </div>
@@ -227,7 +212,7 @@
               En effet, Bomabeatz perçoit <strong>10%</strong> sur chacune de vos ventes et vous reverse le reste.
             </p>
             <p>Si vous êtes intéressé, rejoignez-nous.</p>
-            <InertiaLink class="btn3" :href="route('pricing')">Je vends mes beats sur Bomabeatz</InertiaLink>
+            <Link class="btn3" :href="route('pricing')">Je vends mes beats sur Bomabeatz</Link>
           </div>
           <div class="col-lg-4">
             <p>
@@ -247,7 +232,7 @@
             <p> - bénéficiez d'une réduction de 15% sur tous vos achats</p>
             <p> - écoutez tous les beats en entier avant de les acheter ou télécharger</p>
             <p>Alors qu'attendez-vous ?</p>
-            <InertiaLink className="btn btn3" href="/beats">Je deviens VIP</InertiaLink>
+            <Link className="btn btn3" href="/beats">Je deviens VIP</Link>
           </div>
           </div>
         </div>
@@ -351,3 +336,21 @@
       </div>
         <!-- Footer -->
 </template>
+
+
+<script>
+
+  import { Head } from "@inertiajs/inertia-vue3";
+  import { Link } from "@inertiajs/inertia-vue3";
+
+
+   export default {
+    props:{
+      beatmakers: Object,
+    },
+    components: {
+      Head, Link
+    }
+  }  
+
+</script>
