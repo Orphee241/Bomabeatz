@@ -26,18 +26,20 @@
                     <h5 style="color: rgb(39, 19, 85);" class="card-title text-center pb-0 fs-4">Connectez-vous</h5>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form @submit.prevent="validate" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label style="color: rgb(39, 19, 85);" for="yourEmail" class="form-label">Email</label>
-                      <input style="border: 1px solid rgb(39, 19, 85);" type="email" name="email" class="form-control"
-                        id="yourEmail" required>
+                      <label style="color: rgb(39, 19, 85);" for="email" class="form-label">Email</label>
+                      <input :class="{ 'is-invalid': form.errors.email }" v-model="form.email" type="email" name="email"
+                        class="form-control" id="yourEmail" required>
+                      <!--  -->
                     </div>
 
                     <div class="col-12">
-                      <label style="color: rgb(39, 19, 85);" for="yourPassword" class="form-label">Mot de passe</label>
-                      <input style="border: 1px solid rgb(39, 19, 85);" type="password" name="password"
-                        class="form-control" id="yourPassword" required>
+                      <label style="color: rgb(39, 19, 85);" for="password" class="form-label">Mot de passe</label>
+                      <input :class="{ 'is-invalid': form.errors.password}" v-model="form.password" type="password"
+                        name="password" class="form-control" id="yourPassword" required>
+                      
                     </div>
 
                     <div class="col-12">
@@ -45,7 +47,9 @@
                         type="submit">Je me connecte</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0"><a style="color: rgb(39, 19, 85);" href="">Mot de passe oublié ?</a></p>
+                      <p class="small mb-0">
+                        <Link style="color: rgb(39, 19, 85);" :href="route('signup')">Je n'ai pas encore de compte</Link>
+                      </p>
                     </div>
                   </form>
 
@@ -72,4 +76,35 @@ export default {
   }
 
 }
+</script>
+
+<script setup>
+import { useForm } from "@inertiajs/inertia-vue3";
+import { useSwalError, useSwalSuccess } from "../Alerts/alert";
+
+const form = useForm({
+  email: "",
+  password: "",
+})
+
+const validate = () => {
+  form.post(route("authentikate"), {
+    onSuccess: (page)=>{
+      useSwalSuccess("Vous êtes connecté")
+    },
+    onError: (errors) => {
+      if (errors.email) {
+        useSwalError(errors.email)
+      }
+      else if(errors.password) {
+        useSwalError(errors.password)
+      }
+      else if(errors.errorMsg) {
+        useSwalError(errors.errorMsg)
+      }
+
+    }
+  })
+}
+
 </script>

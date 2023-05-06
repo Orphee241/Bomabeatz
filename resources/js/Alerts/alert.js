@@ -9,7 +9,7 @@ export function useSwalSuccess(message){
         animation: false,
         position: "top",
         showConfirmButton: false,
-        timer: 5000
+        timer: 10000
       })
 }
 
@@ -19,8 +19,8 @@ export function useSwalError(message){
         icon: "error",
         title: message,
         animation: false,
-        position: "top-right",
+        position: "top",
         showConfirmButton: false,
-        timer: 8000
+        timer: 10000
       })
 }

@@ -5,121 +5,256 @@ namespace App\Http\Controllers;
 use App\Models\Beatmakers;
 use App\Models\Utilisateurs;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Inertia\Inertia;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $beatmakers = Beatmakers::all();
         $pageTitle = "Accueil | BOMABEATZ";
-        return inertia("Index")->with("beatmakers", $beatmakers)->with("pageTitle", $pageTitle); 
+        return inertia("Index")->with("beatmakers", $beatmakers);
     }
 
-    public function admin(){
-        return inertia("Admin", ["pageTitle" => "Bomabeatz | Administration"]); 
+    public function admin()
+    {
+        return inertia("Admin", ["pageTitle" => "Bomabeatz | Administration"]);
     }
 
-    public function beats(){
+    public function beats()
+    {
         $beatmakers = Beatmakers::all();
-        return inertia("Beats")->with("beatmakers", $beatmakers); 
+        return inertia("Beats")->with("beatmakers", $beatmakers);
     }
 
-    public function categories(){
-        return inertia("Categories"); 
+    public function categories()
+    {
+        return inertia("Categories");
     }
 
-    public function sellbeat(){
-        return inertia("Sellbeat"); 
+    public function sellbeat()
+    {
+        return inertia("Sellbeat");
     }
 
-    public function signup(){
-        return inertia("Signup"); 
+    public function signup()
+    {
+        return inertia("Signup");
     }
 
-    public function user_signup(Request $request){
+    public function user_signup(Request $request)
+    {
+
+        $request->validate(
+            [
+                "pseudo" => "required|min:3|unique:Utilisateurs",
+                "email" => "email|required|unique:Utilisateurs",
+                "password" => "required|min:4",
+                "password_confirm" => "required|min:4",
+                "statut" => "required"
+
+            ],
+            [
+                "pseudo.required" => "Veuillez entrer votre pseudo",
+                "pseudo.unique" => "Ce pseudo a déjà été pris. Veuillez choisir un autre",
+                "pseudo.min" => "Votre pseudo doit contenir au minimum 3 caractères",
+                "email.email" => "Veuillez entrer une adresse email valide",
+                "email.unique" => "Cette adresse email existe dejà. Entrez-en une autre svp",
+                "password.required" => "Veuillez entrer un mot de passe",
+                "password.min" => "Votre mot de passe doit contenir au minimum 4 caractères",
+                "password_confirm.min" => "Votre mot de passe doit contenir au minimum 4 caractères",
+                "password_confirm.required" => "Veuillez confirmer le mot de passe",
+                "statut.required" => "Veuillez choisir votre statut"
+            ]
+
+
+        );
+
+        $pseudo = $request->pseudo;
+        $email = $request->email;
+        $password = $request->password;
+        $statut = $request->statut;
+        $password_confirm = $request->password_confirm;
+
+
+        if (isset($pseudo, $email, $password, $password_confirm, $statut)) {
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+                $user = new Utilisateurs();
+
+                if ($password == $password_confirm) {
+
+                    $user->pseudo = htmlentities($pseudo);
+                    $user->email = htmlentities($email);
+                    $user->statut = $statut;
+                    $user->mdp = htmlentities(Hash::make($password));
+                    $user->confirmer_mdp = htmlentities(Hash::make($password));
+
+                    $user->save();
+
+                    //return back()->with("success", "Vous avez été inscrit avec succès");
+                } else {
+                    return back()->withErrors([
+                        "msg" => "Les mots de passe ne sont pas identiques"
+                    ]);
+                }
+            } else {
+                return back()->withErrors([
+                    "emailMsg" => "Veuiller entrer une adresse email valide"
+                ]);
+            }
+        }
+    }
+
+    public function login()
+    {
+        return inertia("Login");
+    }
+
+    /* Authentification : connexion */
+    public function authentikate(Request $request)
+    {
+        $credentials = $request->validate(
+            [
+                "email" => "required",
+                "password" => "required|min:4",
+            ],
+            [
+                "email.required" => "Veuillez entrer votre adresse email",
+                "password.required" => "Veuillez entrer votre mot de passe",
+                "password.min" => "Mot de passe incorrect",
+
+            ]
+        );
+
+        $email = $request->email;
+        $password = $request->password;
+
+        dd($credentials);
+
+        if (Auth::attempt($credentials)) {
+
+            $request->session()->regenerate();
+
+            
+            //Route par defaut
+            $defaultRoute = route("home");
+
+            //La route ou l'urilisateur avait l'intention d'accéder, s'il n'y en a pas, on redirige vers la route par defaut
+            $intendedRoute =  redirect()->intended($defaultRoute)->getTargetUrl();
+
+            return Inertia::location($intendedRoute);
+        } else {
+            return back()->withErrors([
+                "email" => "Adresse email ou mot de passe incorrecte",
+            ]);
+        }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return Inertia::location("/login");
+    }
+
+    public function contact()
+    {
+        return inertia("Contact", ["pageTitle" => "Bomabeatz | Contact"]);
+    }
+
+    public function about()
+    {
+        return inertia("About", ["pageTitle" => "Bomabeatz | A propos"]);
+    }
+
+    public function vip()
+    {
+        return inertia("Vip", ["pageTitle" => "Bomabeatz | VIP"]);
+    }
+
+    public function pricing()
+    {
+        $utilisateurs = Utilisateurs::all();
+        return inertia("Pricing")->with("utilisateur", $utilisateurs);
+    }
+
+    /* -----------Payment-------------- */
+    public function payment(Request $request)
+    {
+
+        $client = new Client();
 
         $request->validate([
-            "pseudo" => "required|min:3|unique:Utilisateurs",
-            "email" => "email|required|unique:Utilisateurs",
-            "password" => "required|min:4",
-            "password_confirm" => "required|min:4",
-            "statut" => "required"
+            "amount",
+            "reference",
+            "portfeuille",
+            "disbursement",
+            "redirect_success",
+            "redirect_error"
+        ]);
 
-        ],
-        [
-            "pseudo.required" => "Veuillez entrer votre pseudo",
-            "pseudo.unique" => "Ce pseudo a déjà été pris. Veuillez choisir avec un autre",
-            "pseudo.min" => "Votre pseudo doit contenir au minimum 3 caractères",
-            "email.email" => "Veuillez entrer une adresse email valide",
-            "email.unique" => "Cette adresse email existe dejà. Entrez-en une autre svp",
-            "password.required" => "Veuillez entrer un mot de passe",
-            "password.min" => "Votre mot de passe doit contenir au minimum 4 caractères",
-            "password_confirm.min" => "Votre mot de passe doit contenir au minimum 4 caractères",
-            "password_confirm.required" => "Veuillez confirmer le mot de passe",
-            "statut.required" => "Veuillez choisir votre statut"
-        ]
+        $amount = $request->amount;
+        $reference = $request->reference;
+        $portfeuille = $request->portfeuille;
+        $disbursement = $request->disbursement;
+        $redirect_success = $request->redirect_success;
+        $redirect_error = $request->redirect_error;
 
-        
-    );
+        try {
 
-    $pseudo = $request->pseudo;
-    $email = $request->email;
-    $password = $request->password;
-    $statut = $request->statut;
-    $password_confirm = $request->password_confirm;
+            $url = 'https://gateway.singpay.ga/v1/ext';
+
+            $headers = [
+                'accept' => '*/*',
+                'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+                'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+                'x-wallet' => '64493b08a2980dcdb93f5529',
+                'Content-Type' => 'application/json',
+            ];
+
+            $data = [
+                'portefeuille' => $portfeuille,
+                'reference' => $reference,
+                'redirect_success' => $redirect_success,
+                'redirect_error' => $redirect_error,
+                'amount' => $amount,
+                'disbursement' => $disbursement,
+                'logoURL' => '',
+                'isTransfer' => true,
+            ];
 
 
-    if(isset($pseudo, $email, $password, $password_confirm, $statut)){
+            $response = $client->request('POST', $url, [
+                'headers' => $headers,
+                'json' => $data
+            ]);
 
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+            if ($response->getStatusCode() == 200) {
+                $responseBody = $response->getBody()->getContents();
 
-            $user = new Utilisateurs();
+                $responseBodyObj = json_decode($responseBody);
 
-            if($password == $password_confirm){
-                
-                $user->pseudo = htmlentities($pseudo);
-                $user->email = htmlentities($email);
-                $user->statut = $statut;
-                $user->mdp = htmlentities(password_hash($password, PASSWORD_DEFAULT));
-                $user->confirmer_mdp = htmlentities(password_hash($password, PASSWORD_DEFAULT));
+                $link = $responseBodyObj->link;
 
-                $user->save();
-
-                return back()->with("success", "Vous avez été inscrit avec succès");
-    
-
-                
-
+                return Inertia::location($link);
             }
-            else{
-                return back()->with("error", "Les mots de passe ne sont pas identiques");
-            }
-     
+        } catch (Exception $e) {
+
+            return back()->withErrors([
+                "msg" => "Une erreur s'est produite : veuillez vous connecter à internet"
+            ]);
         }
-        
-
     }
 
+    public function notif()
+    {
+        return inertia("Notification");
     }
-
-    public function login(){
-        return inertia("Login", ["pageTitle" => "Bomabeatz | Connexion"]); 
-    }
-
-    public function contact(){
-        return inertia("Contact", ["pageTitle" => "Bomabeatz | Contact"]); 
-    }
-
-    public function about(){
-        return inertia("About", ["pageTitle" => "Bomabeatz | A propos"]); 
-    }
-
-    public function vip(){
-        return inertia("Vip", ["pageTitle" => "Bomabeatz | VIP"]); 
-    }
-
-    public function pricing(){
-        $utilisateurs = Utilisateurs::all();
-        return inertia("Pricing")->with("utilisateur", $utilisateurs); 
-    }
-
 }

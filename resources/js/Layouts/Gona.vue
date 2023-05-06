@@ -78,6 +78,7 @@ export default {
             </div>
             <div class="credits">
                 Conception by <a href="https://gona241.vercel.app/">GONA</a>
-        </div>
-    </footer><!-- End Footer -->
-</div></template>
+            </div>
+        </footer><!-- End Footer -->
+    </div>
+</template>

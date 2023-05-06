@@ -25,50 +25,53 @@
 
                   </div>
 
-                  <form @submit.prevent="submitForm" class="row g-3 needs-validation" novalidate>
+                  <form @submit.prevent="valider" class="row g-3 needs-validation" novalidate>
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="pseudo" class="form-label">Pseudo</label>
-                      <input :class="{ 'is-invalid': psdError != '' }" v-model="psd" type="text" name="psd"
+                      <input :class="{ 'is-invalid': form.errors.pseudo }" v-model="form.pseudo" type="text" name="psd"
                         class="form-control" id="yourName" required>
-                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="psdError != ''" class="text-danger">{{
-                        psdError }}</span>
+                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="form.errors.pseudo"
+                        class="text-danger">{{
+                          form.errors.pseudo }}</span>
                     </div>
 
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="email" class="form-label">Email</label>
-                      <input :class="{ 'is-invalid': mailError != '' }" v-model="mail" type="email" name="email"
+                      <input :class="{ 'is-invalid': form.errors.email }" v-model="form.email" type="email" name="email"
                         class="form-control" id="yourEmail" required>
-                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="mailError != ''" class="text-danger">{{
-                        mailError }}</span>
+                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="form.errors.email"
+                        class="text-danger">{{
+                          form.errors.email }}</span>
                     </div>
 
                     <div class="col-sm-12">
                       <label style="color: rgb(39, 19, 85);" class=" col-form-label">Statut</label>
-                      <select :class="{ 'is-invalid': statuError != '' }" v-model="statu" name="statut"
+                      <select :class="{ 'is-invalid': form.errors.statut }" v-model="form.statut" name="statut"
                         class="form-select" aria-label="Default select example">
                         <option selected disabled>Vous êtes...</option>
                         <option value="1">Artiste</option>
                         <option value="2">Beatmaker</option>
                       </select>
-                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="statuError != ''"
-                        class="text-danger">{{ statuError }}</span>
+                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="form.errors.statut"
+                        class="text-danger">{{ form.errors.statut }}</span>
                     </div>
 
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="password" class="form-label">Mot de passe</label>
-                      <input :class="{ 'is-invalid': passError != '' }" v-model="pass" type="password" name="password"
-                        class="form-control" id="yourPassword" required>
-                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="passError != ''" class="text-danger">{{
-                        passError }}</span>
+                      <input :class="{ 'is-invalid': form.errors.password }" v-model="form.password" type="password"
+                        name="password" class="form-control" id="yourPassword" required>
+                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="form.errors.password"
+                        class="text-danger">{{
+                          form.errors.password }}</span>
                     </div>
 
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="password_confirm" class="form-label">Confirmer le mot de
                         passe</label>
-                      <input :class="{ 'is-invalid': pass_confirmError != '' }" v-model="pass_confirm" type="password"
-                        name="password_confirm" class="form-control" id="" required>
-                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="pass_confirmError != ''"
-                        class="text-danger">{{ pass_confirmError }}</span>
+                      <input :class="{ 'is-invalid': form.errors.password_confirm }" v-model="form.password_confirm"
+                        type="password" name="password_confirm" class="form-control" id="" required>
+                      <span style="line-height: 0px; margin: 0; padding: 0;" v-if="form.errors.password_confirm"
+                        class="text-danger">{{ form.errors.password_confirm }}</span>
                     </div>
 
                     <div class="col-12">
@@ -107,57 +110,32 @@ export default {
 </script>
 
 <script setup>
-import { ref } from "vue";
+import { useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { useSwalSuccess, useSwalError } from "../Alerts/alert";
 
-const psd = ref("")
-const mail = ref("")
-const statu = ref("")
-const pass = ref("")
-const pass_confirm = ref("")
+const form = useForm({
+  pseudo: "",
+  email: "",
+  statut: "",
+  password: "",
+  password_confirm: "",
+})
 
-const psdError = ref("")
-const mailError = ref("")
-const statuError = ref("")
-const passError = ref("")
-const pass_confirmError = ref("")
-
-const submitForm = () => {
-  const pseudo = psd.value
-  const email = mail.value
-  const statut = statu.value
-  const password = pass.value
-  const password_confirm = pass_confirm.value
-
-  const url = route("user_signup")
-
-  Inertia.post(url, {
-    pseudo, email, statut, password, password_confirm
-  },
-    {
-      onSuccess: (page) => {
-
-        useSwalSuccess("Votre compte a été crée avec succès")
-
-      },
-      onError: (errors) => {
-        //useSwalError("Une erreur s'est produite, veuillez réessayer")
-        if (errors.pseudo != '' && errors.email != '' && errors.statut != '' && errors.password != '' && errors.password2 != '') {
-          psdError.value = errors.pseudo
-          mailError.value = errors.email
-          statuError.value = errors.statut
-          passError.value = errors.password
-          pass_confirmError.value = errors.password_confirm
-
-          useSwalError("Une erreur s'est produite")
-
-        }
-
+const valider = () => {
+  form.post(route("user_signup"), {
+    onSuccess: (page) => {
+      useSwalSuccess("Votre compte a été crée avec succès")
+    },
+    onError: (errors) => {
+      if(errors.msg){
+        useSwalError(errors.msg)
+      }else if(errors.emailMsg){
+        useSwalError(errors.emailMsg)
       }
-
-    })
+      
+    }
+  })
 }
-
 
 </script>

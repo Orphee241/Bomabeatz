@@ -1,0 +1,127 @@
+const psd = ref("")
+const mail = ref("")
+const statu = ref("")
+const pass = ref("")
+const pass_confirm = ref("")
+
+const psdError = ref("")
+const mailError = ref("")
+const statuError = ref("")
+const passError = ref("")
+const pass_confirmError = ref("")
+
+const submitForm = () => {
+  const pseudo = psd.value
+  const email = mail.value
+  const statut = statu.value
+  const password = pass.value
+  const password_confirm = pass_confirm.value
+
+  const url = route("user_signup")
+
+  Inertia.post(url, {
+    pseudo, email, statut, password, password_confirm
+  },
+    {
+      onSuccess: (page) => {
+
+        useSwalSuccess("Votre compte a été crée avec succès")
+
+      },
+      onError: (errors) => {
+        //useSwalError("Une erreur s'est produite, veuillez réessayer")
+        if (errors.pseudo != '' && errors.email != '' && errors.statut != '' && errors.password != '' && errors.password2 != '') {
+          psdError.value = errors.pseudo
+          mailError.value = errors.email
+          statuError.value = errors.statut
+          passError.value = errors.password
+          pass_confirmError.value = errors.password_confirm
+
+          useSwalError("Une erreur s'est produite")
+
+        }
+
+      }
+
+    })
+}
+
+
+$response = $client->request('POST', 'https://gateway.singpay.ga/v1/ext', [
+            'headers' => [
+                'accept' => '*/*',
+                'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+                'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+                'x-wallet' => '64493b08a2980dcdb93f5529',
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'portefeuille' => $portfueille,
+                'reference' => $reference,
+                'redirect_success' => $redirect_success,
+                'redirect_error' => $redirect_error,
+                'amount' => $amount,
+                'disbursement' => $disbursement,
+                'logoURL' => '',
+                'isTransfer' => true,
+            ],
+        ]);
+
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+
+        if ($statusCode >= 200 && $statusCode < 300) {
+            // Traitement réussi
+            echo "Traitement réussi: " . $body;
+        } else {
+            // Traitement en erreur
+            echo "Traitement en erreur: " . $statusCode;
+        }
+
+
+
+
+        if (isset($email, $password)) {
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+                $utilisateurs = Utilisateurs::where('email', $email)->first();
+
+                if(isset($utilisateurs->email)) {
+                    
+                    if ($utilisateurs->email == $email && password_verify($password, $utilisateurs->mdp)) {
+                        
+                        $user = Auth::user();
+
+                        $sessionData = [
+                
+                            "id" => session::get("id"),
+                            "pseudo" => session::get("pseudo"),
+                            "email" => session::get("email"),
+                            
+                        ];
+                    
+
+                        /* dispatch(function(){
+                            sleep(3);
+                        })->delay(now()->addSeconds(3)); */
+                        
+
+                        return Inertia::location(route("home"));
+
+                    } else {
+                        return back()->withErrors([
+                            "errorMsg" => "Adresse email ou mot de passe incorrecte"
+                        ]);
+                    }
+                } else {
+                    return back()->withErrors([
+                        "errorMsg" => "Adresse email incorrecte"
+                    ]);
+                }
+            } else {
+                return back()->withErrors([
+                    "errorMsg" => "Veuiller entrer une adresse email valide"
+                ]);
+            }
+        }
