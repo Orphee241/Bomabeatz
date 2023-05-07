@@ -33,7 +33,7 @@
                       <input :class="{ 'is-invalid': form.errors.email }" v-model="form.email" type="email" name="email"
                         class="form-control" id="yourEmail" required>
                       <!--  -->
-                    </div>
+                    </div> 
 
                     <div class="col-12">
                       <label style="color: rgb(39, 19, 85);" for="password" class="form-label">Mot de passe</label>

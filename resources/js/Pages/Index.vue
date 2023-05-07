@@ -1,9 +1,11 @@
 
-
 <template>
   <Head title="Bienvenue sur notre plateforme" />
   <div className="banner container-fluid">
     <div className="bienvenu container">
+      <div v-if="$page.props.flash.successMsg">
+        {{ useSwalSuccess($page.props.flash.successMsg) }}
+      </div>
       <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Bomabeatz</h2>
       <h3 className="text-center">La plateforme qui te permet d'acheter ou de vendre ton beat.</h3>
       <h5 className="text-center">Bomabeatz est une plateforme musicale africaine où il est possible de télécharger
@@ -21,94 +23,37 @@
       beats du moments</h2>
     <div class="row">
 
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div style="padding: 0px; margin: 0;" class="header">
-              <h3>OKLM au Qwat</h3>
+      <div v-for="beat in beats" class="col-sm-3">
+          <div class="beatCard">
+            <div class="image">
+              <img :src="`${beat.image}`" />
             </div>
-            <div class="content">
-              <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : F</p>
-              <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : Gratuit</p>
-              <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : GONA</p>
-              <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : 15/01/2023</p>
-              <div class="row">
-                <div class="col-lg-2">
-                  <p class="icon">
-                    <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
-                  </p>
-                </div>
-                <div class="col-lg-2">
-                  <p class="icon">
-                    <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
-                  </p>
-                </div>
+            <div class="beatCard-inner">
+              <div style="padding: 0px; margin: 0;" class="header">
+                <h3>{{ beat.nom }}</h3>
               </div>
-              <a href="#" class=" btn btn3">Ecouter</a>
+              <div class="content">
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{ beat.licence }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{ beat.prix }} XAF</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{ beat.beatmaker }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span style="font-weight: 500;">{{ beat.date }}</span></p>
+                <div class="row">
+                 <!--  <div class="col-lg-2">
+                    <p class="icon">
+                      <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
+                    </p>
+                  </div>
+                  <div class="col-lg-2">
+                    <p class="icon">
+                      <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
+                    </p>
+                  </div> -->
+                </div>
+                <a href="#" class=" btn btn3">Ecouter</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div style="padding: 0px; margin: 0;" class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div style="padding: 0px; margin: 0;" class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div style="padding: 0px; margin: 0;" class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -120,82 +65,37 @@
         class="bx bxs-speaker"></i>Nouveaux beats</h2>
     <div class="row">
 
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div class="header">
-              <h3>OKLM au Qwat</h3>
+      <div v-for="beat in beats" class="col-sm-3">
+          <div class="beatCard">
+            <div class="image">
+              <img :src="`${beat.image}`" />
             </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
+            <div class="beatCard-inner">
+              <div style="padding: 0px; margin: 0;" class="header">
+                <h3>{{ beat.nom }}</h3>
+              </div>
+              <div class="content">
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{ beat.licence }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{ beat.prix }} XAF</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{ beat.beatmaker }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span style="font-weight: 500;">{{ beat.date }}</span></p>
+                <div class="row">
+                 <!--  <div class="col-lg-2">
+                    <p class="icon">
+                      <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
+                    </p>
+                  </div>
+                  <div class="col-lg-2">
+                    <p class="icon">
+                      <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
+                    </p>
+                  </div> -->
+                </div>
+                <a href="#" class=" btn btn3">Ecouter</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="beatCard">
-          <div class="image">
-            <img src="../../../public/btm.png" />
-          </div>
-          <div class="beatCard-inner">
-            <div class="header">
-              <h3>OKLM au Qwat</h3>
-            </div>
-            <div class="content">
-              <p>Licence : F</p>
-              <p>Prix : Gratuit</p>
-              <p>Beatmaker : GONA</p>
-              <p>Publié le : 15/01/2023</p>
-              <Link href="#" class=" btn btn3">Ecouter</Link>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -359,16 +259,7 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 
 export default {
-  props: {
-    beatmakers: Object,
-    user: Object,
-    sessionData: Object,
-  },
 
-  mounted() {
-    console.log(this.user);
-    console.log(this.sessionData);
-  },
     components: {
     Head, Link
   }
@@ -377,11 +268,11 @@ export default {
 </script>
 
 <script setup>
+import { useSwalError, useSwalSuccess } from "../Alerts/alert";
 
 defineProps({
-
+  beats: Object,
 })
-
 
 
 </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Beatmakers;
+use App\Models\Beats;
 use App\Models\Utilisateurs;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -17,8 +18,11 @@ class ClientController extends Controller
     public function index()
     {
         $beatmakers = Beatmakers::all();
-        $pageTitle = "Accueil | BOMABEATZ";
-        return inertia("Index")->with("beatmakers", $beatmakers);
+        $beats = Beats::all();
+        
+        return inertia("Index")
+        ->with("beats", $beats)
+        ->with("beatmakers", $beatmakers);
     }
 
     public function admin()
@@ -28,8 +32,9 @@ class ClientController extends Controller
 
     public function beats()
     {
-        $beatmakers = Beatmakers::all();
-        return inertia("Beats")->with("beatmakers", $beatmakers);
+        $beats = Beats::all();
+
+        return inertia("Beats")->with("beats", $beats);
     }
 
     public function categories()
@@ -44,7 +49,7 @@ class ClientController extends Controller
 
     public function signup()
     {
-        return inertia("Signup");
+        return inertia("Signup"); 
     }
 
     public function user_signup(Request $request)
@@ -136,32 +141,71 @@ class ClientController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        dd($credentials);
 
-        if (Auth::attempt($credentials)) {
+        if (isset($email, $password)) {
 
-            $request->session()->regenerate();
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+                $utilisateurs = Utilisateurs::where('email', $email)->first();
+
+                if(isset($utilisateurs->email)) {
+                    
+                    if ($utilisateurs->email == $email && password_verify($password, $utilisateurs->mdp)) {
+                        
+
+                        /* dispatch(function(){
+                            sleep(3);
+                        })->delay(now()->addSeconds(3)); */
+                        
+
+                        $request->session()->put("utilisateurs", $utilisateurs);
+                        $request->session()->put("successMsg", "Vous êtes connecté");
+
+                        //$defaulRoute = route("home");
+                        //$intendedRoute = redirect()->intended($defaulRoute)->getTargetUrl();
+
+                        //dd($request->session()->get("utilisateurs"), $request->session()->get("successMsg"));
+                        return Inertia::location(route("home"));
+
+                    } else {
+                        return back()->withErrors([
+                            "errorMsg" => "Adresse email ou mot de passe incorrecte"
+                        ]);
+                    }
+                } else {
+                    return back()->withErrors([
+                        "errorMsg" => "Adresse email incorrecte"
+                    ]);
+                }
+            } else {
+                return back()->withErrors([
+                    "errorMsg" => "Veuiller entrer une adresse email valide"
+                ]);
+            }
+        }
+
+
+    /*  $data = $request->only("email", "password");
+
+        if (Auth::attempt($data)) {
 
             
-            //Route par defaut
-            $defaultRoute = route("home");
 
-            //La route ou l'urilisateur avait l'intention d'accéder, s'il n'y en a pas, on redirige vers la route par defaut
-            $intendedRoute =  redirect()->intended($defaultRoute)->getTargetUrl();
-
-            return Inertia::location($intendedRoute);
+            dd($data);
         } else {
             return back()->withErrors([
                 "email" => "Adresse email ou mot de passe incorrecte",
             ]);
-        }
-    }
+        }*/
+    } 
 
     public function logout()
     {
-        Auth::logout();
+        if(session()->has("successMsg")){
+            session()->pull("successMsg");
+        }
 
-        return Inertia::location("/login");
+        return Inertia::location("login");
     }
 
     public function contact()

@@ -1,18 +1,3 @@
-<script>
-import { InertiaLink } from "@inertiajs/inertia-vue3";
-import { Head } from "@inertiajs/inertia-vue3";
-
-export default {
-    components: {
-        InertiaLink,
-        Head
-
-    }
-
-}
-
-</script>
-
 
 <template>
     <!-- ======= Header ======= -->
@@ -47,11 +32,20 @@ export default {
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('sellbeat')">Formations
                     </InertiaLink>
                 </li>
-                <li class="nav-item pe-3">
+                <li v-if="$page.props.flash.successMsg" class="nav-item pe-3">
+                    <InertiaLink class="nav-link  d-flex align-items-center pe-0">
+                    </InertiaLink>
+                </li>
+                <li v-else class="nav-item pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('signup')">S'inscrire
                     </InertiaLink>
                 </li>
-                <li class="nav-item pe-3">
+                <li v-if="$page.props.flash.successMsg" class="nav-item pe-3">
+                    <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('logout')"><span
+                            style="color: rgb(255, 65, 65);">Se déconnecter</span>
+                    </InertiaLink>
+                </li>
+                <li v-else class="nav-item pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('login')">Se connecter
                     </InertiaLink>
                 </li>
@@ -69,6 +63,7 @@ export default {
     </header>
     <div>
         <slot />
+
     </div>
     <!-- ======= Footer ======= -->
     <div class="foot container-fluid d-flex justify-content-center">
@@ -82,3 +77,18 @@ export default {
         </footer><!-- End Footer -->
     </div>
 </template>
+
+<script>
+import { InertiaLink } from "@inertiajs/inertia-vue3";
+import { Head } from "@inertiajs/inertia-vue3";
+
+export default {
+    components: {
+        InertiaLink,
+        Head
+
+    }
+
+}
+
+</script>
