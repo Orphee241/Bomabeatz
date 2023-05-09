@@ -163,7 +163,7 @@ defineProps({
 })
 
 const form = useForm({
-  amount: "50",
+  amount: "100",
   portfeuille: "ng2666",
   reference: "ref" + Date.now(),
   disbursement: "64493cdca2980dcf7b3f5567",

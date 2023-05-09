@@ -19,12 +19,16 @@
                 <h3>{{ beat.nom }}</h3>
               </div>
               <div class="content">
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{ beat.licence }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{ beat.prix }} XAF</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{ beat.beatmaker }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span style="font-weight: 500;">{{ beat.date }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{
+                  beat.licence }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{
+                  beat.prix }} XAF</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{
+                  beat.beatmaker }}</span></p>
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span
+                    style="font-weight: 500;">{{ beat.date }}</span></p>
                 <div class="row">
-                 <!--  <div class="col-lg-2">
+                  <!--  <div class="col-lg-2">
                     <p class="icon">
                       <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
                     </p>
@@ -35,7 +39,9 @@
                     </p>
                   </div> -->
                 </div>
-                <a href="#" class=" btn btn3">Ecouter</a>
+                <a href="#" ></a>
+                
+                <Link class="btn btn3" :href="route('beat_detail', {id : beat.id})">Ecouter</Link>
               </div>
             </div>
           </div>
@@ -59,6 +65,8 @@ export default {
 
 </script>
 <script setup>
+
+
 
 defineProps({
   beats: Object,

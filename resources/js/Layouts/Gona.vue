@@ -21,7 +21,7 @@
                 <li class="nav-item dropdown pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center " :href="route('beats')">Beats</InertiaLink>
                 </li>
-                <li class="nav-item dropdown pe-3">
+                <li @click="redirectToLogin" class="nav-item dropdown pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('pricing')">Vendre un Beat
                     </InertiaLink>
                 </li>
@@ -32,10 +32,7 @@
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('sellbeat')">Formations
                     </InertiaLink>
                 </li>
-                <li v-if="$page.props.flash.successMsg" class="nav-item pe-3">
-                    <InertiaLink class="nav-link  d-flex align-items-center pe-0">
-                    </InertiaLink>
-                </li>
+                <li v-if="$page.props.flash.successMsg"></li>
                 <li v-else class="nav-item pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('signup')">S'inscrire
                     </InertiaLink>
@@ -86,9 +83,37 @@ export default {
     components: {
         InertiaLink,
         Head
-
     }
 
 }
+
+</script>
+<script setup>
+import { Inertia } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-vue3";
+
+
+const page = usePage();
+
+
+//const url = window.location.href;
+//const parsedUrl = new URL(url);
+//const pathname = parsedUrl.pathname;
+//const path = pathname.split("/").pop();
+//console.log(path);
+
+
+
+
+    const redirectToLogin = ()=>{
+        if(path == "pricing" ){
+            Inertia.visit(route("login"))
+        }
+
+}
+
+
+
+
 
 </script>

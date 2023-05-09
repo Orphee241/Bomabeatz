@@ -125,3 +125,51 @@ $response = $client->request('POST', 'https://gateway.singpay.ga/v1/ext', [
                 ]);
             }
         }
+
+
+
+
+
+        if (isset($email, $password)) {
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+                $utilisateurs = Utilisateurs::where('email', $email)->first();
+
+                if(isset($utilisateurs->email)) {
+                    
+                    if ($utilisateurs->email == $email && password_verify($password, $utilisateurs->mdp)) {
+                        
+
+                        /* dispatch(function(){
+                            sleep(3);
+                        })->delay(now()->addSeconds(3)); */
+                        
+                        Auth::attempt($credentials) == true;
+
+                        dd(Auth::attempt($credentials));
+                        $request->session()->put("utilisateurs", $utilisateurs);
+                        $request->session()->put("successMsg", "Vous êtes connecté");
+
+                        //$defaulRoute = route("home");
+                        //$intendedRoute = redirect()->intended($defaulRoute)->getTargetUrl();
+
+                        //dd($request->session()->get("utilisateurs"), $request->session()->get("successMsg"));
+                        return Inertia::location(route("home"));
+
+                    } else {
+                        return back()->withErrors([
+                            "errorMsg" => "Adresse email ou mot de passe incorrecte"
+                        ]);
+                    }
+                } else {
+                    return back()->withErrors([
+                        "errorMsg" => "Adresse email incorrecte"
+                    ]);
+                }
+            } else {
+                return back()->withErrors([
+                    "errorMsg" => "Veuiller entrer une adresse email valide"
+                ]);
+            }
+        }

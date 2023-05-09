@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Beatmakers;
-use App\Models\Beats;
-use App\Models\Utilisateurs;
+use App\Models\Beatmaker;
+use App\Models\Beat;
+use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Inertia\Inertia;
@@ -17,12 +17,12 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $beatmakers = Beatmakers::all();
-        $beats = Beats::all();
-        
+        $beatmakers = Beatmaker::all();
+        $beats = Beat::all();
+
         return inertia("Index")
-        ->with("beats", $beats)
-        ->with("beatmakers", $beatmakers);
+            ->with("beats", $beats)
+            ->with("beatmakers", $beatmakers);
     }
 
     public function admin()
@@ -32,9 +32,16 @@ class ClientController extends Controller
 
     public function beats()
     {
-        $beats = Beats::all();
+        $beats = Beat::all();
 
         return inertia("Beats")->with("beats", $beats);
+    }
+
+    public function beat_detail($id){
+        $beat = Beat::find($id);
+
+
+        return inertia("Beats")->with("beat", $beat);
     }
 
     public function categories()
@@ -49,7 +56,7 @@ class ClientController extends Controller
 
     public function signup()
     {
-        return inertia("Signup"); 
+        return inertia("Signup");
     }
 
     public function user_signup(Request $request)
@@ -91,7 +98,7 @@ class ClientController extends Controller
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                $user = new Utilisateurs();
+                $user = new Utilisateur();
 
                 if ($password == $password_confirm) {
 
@@ -125,48 +132,45 @@ class ClientController extends Controller
     /* Authentification : connexion */
     public function authentikate(Request $request)
     {
+
         $credentials = $request->validate(
             [
                 "email" => "required",
-                "password" => "required|min:4",
+                "password" => "required", "min:4",
             ],
             [
                 "email.required" => "Veuillez entrer votre adresse email",
                 "password.required" => "Veuillez entrer votre mot de passe",
-                "password.min" => "Mot de passe incorrect",
-
             ]
+
         );
 
         $email = $request->email;
         $password = $request->password;
 
-
         if (isset($email, $password)) {
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                $utilisateurs = Utilisateurs::where('email', $email)->first();
+                $utilisateurs = Utilisateur::where('email', $email)->first();
 
-                if(isset($utilisateurs->email)) {
-                    
+                if (isset($utilisateurs->email)) {
+
                     if ($utilisateurs->email == $email && password_verify($password, $utilisateurs->mdp)) {
-                        
+
 
                         /* dispatch(function(){
                             sleep(3);
                         })->delay(now()->addSeconds(3)); */
-                        
 
                         $request->session()->put("utilisateurs", $utilisateurs);
                         $request->session()->put("successMsg", "Vous êtes connecté");
 
-                        //$defaulRoute = route("home");
-                        //$intendedRoute = redirect()->intended($defaulRoute)->getTargetUrl();
+                        $defaulRoute = route("home");
+                        $intendedRoute = redirect()->intended($defaulRoute)->getTargetUrl();
 
                         //dd($request->session()->get("utilisateurs"), $request->session()->get("successMsg"));
-                        return Inertia::location(route("home"));
-
+                        return Inertia::location($intendedRoute);
                     } else {
                         return back()->withErrors([
                             "errorMsg" => "Adresse email ou mot de passe incorrecte"
@@ -183,25 +187,11 @@ class ClientController extends Controller
                 ]);
             }
         }
-
-
-    /*  $data = $request->only("email", "password");
-
-        if (Auth::attempt($data)) {
-
-            
-
-            dd($data);
-        } else {
-            return back()->withErrors([
-                "email" => "Adresse email ou mot de passe incorrecte",
-            ]);
-        }*/
-    } 
+    }
 
     public function logout()
     {
-        if(session()->has("successMsg")){
+        if (session()->has("successMsg")) {
             session()->pull("successMsg");
         }
 
@@ -225,8 +215,8 @@ class ClientController extends Controller
 
     public function pricing()
     {
-        $utilisateurs = Utilisateurs::all();
-        return inertia("Pricing")->with("utilisateur", $utilisateurs);
+        $utilisateur = Utilisateur::all();
+        return inertia("Pricing")->with("utilisateur", $utilisateur);
     }
 
     /* -----------Payment-------------- */
@@ -285,9 +275,9 @@ class ClientController extends Controller
 
                 $responseBodyObj = json_decode($responseBody);
 
-                $link = $responseBodyObj->link;
+                $paymentLink = $responseBodyObj->paymentLink;
 
-                return Inertia::location($link);
+                return Inertia::location($paymentLink);
             }
         } catch (Exception $e) {
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class commentaires extends Model
+class Beat extends Model
 {
     use HasFactory;
 }
