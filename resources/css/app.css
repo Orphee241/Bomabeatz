@@ -53,6 +53,16 @@
     font-size: 15px; 
     font-weight: 500 !important;
   }
+
+  /* Les  détails du beat */
+  .beatInfos{
+    padding: 20px 2px;
+    font-weight: 500;
+    margin-left: 3em;
+  }
+  .beatInfosItem{
+    line-height: 0px;
+  }
   
   /* Bannière d'accueil */
   .bienvenu{
@@ -71,12 +81,10 @@
     margin-top: 6em;
   
   }
-  .beats{
-    
-  }
+ 
   .allbeats{
    font-weight: 700;
-   margin-top: 1.5em;
+   margin-top: 0.5em;
    color: rgb(39, 19, 85);
   }
   

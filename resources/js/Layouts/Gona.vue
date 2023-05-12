@@ -89,30 +89,6 @@ export default {
 
 </script>
 <script setup>
-import { Inertia } from "@inertiajs/inertia";
-import { usePage } from "@inertiajs/inertia-vue3";
-
-
-const page = usePage();
-
-
-//const url = window.location.href;
-//const parsedUrl = new URL(url);
-//const pathname = parsedUrl.pathname;
-//const path = pathname.split("/").pop();
-//console.log(path);
-
-
-
-
-    const redirectToLogin = ()=>{
-        if(path == "pricing" ){
-            Inertia.visit(route("login"))
-        }
-
-}
-
-
 
 
 

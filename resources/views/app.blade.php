@@ -6,6 +6,8 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         {{-- Swiffy--}}
@@ -82,6 +84,8 @@
         @vite('resources/assets2/vendor/isotope-layout/isotope.pkgd.min.js') @inertiaHead
         @vite('resources/assets2/vendor/php-email-form/validate.js') @inertiaHead
         @vite('resources/assets2/js/main.js') @inertiaHead
+
    
+        <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     </body>
 </html>

@@ -48,3 +48,7 @@ Route::post('/authentikate', [ClientController::class, "authentikate"])->name("a
 Route::get('/contact', [ClientController::class, "contact"])->name("contact");
 Route::get('/about', [ClientController::class, "about"])->name("about");
 Route::get('/beat_detail/{id}', [ClientController::class, "beat_detail"])->name("beat_detail");
+
+Route::get('/beat_paid/{id}', [ClientController::class, "beat_paid"])
+->middleware("authentikated")
+->name("beat_paid");

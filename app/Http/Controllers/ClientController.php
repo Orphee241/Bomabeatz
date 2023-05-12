@@ -40,8 +40,7 @@ class ClientController extends Controller
     public function beat_detail($id){
         $beat = Beat::find($id);
 
-
-        return inertia("Beats")->with("beat", $beat);
+        return inertia("Beat_detail")->with("beat", $beat);
     }
 
     public function categories()
@@ -270,21 +269,31 @@ class ClientController extends Controller
                 'json' => $data
             ]);
 
+
             if ($response->getStatusCode() == 200) {
                 $responseBody = $response->getBody()->getContents();
 
                 $responseBodyObj = json_decode($responseBody);
 
-                $paymentLink = $responseBodyObj->paymentLink;
+                $paymentLink = $responseBodyObj->link;
 
                 return Inertia::location($paymentLink);
             }
         } catch (Exception $e) {
 
             return back()->withErrors([
-                "msg" => "Une erreur s'est produite : veuillez vous connecter à internet"
+                "msg" => "Une erreur s'est produite : veuillez réessayer"
             ]);
         }
+    }
+
+    /* Lorque le paiement du beat s'est effectué */
+
+    public function beat_paid($id){
+
+        $beat = Beat::find($id);
+
+        return inertia("Beat_paid")->with("beat", $beat);
     }
 
     public function notif()

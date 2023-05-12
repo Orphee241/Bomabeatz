@@ -9,7 +9,7 @@
       <h2 style="color: rgb(39, 19, 85); font-weight: 800;">Les beats du moments</h2>
       <div style="margin-bottom: 1.5em;" class="row">
 
-        <div v-for="beat in beats" class="col-sm-3">
+        <div v-for="beat in beats" :key="beat.id" class="col-sm-3">
           <div class="beatCard">
             <div class="image">
               <img :src="`${beat.image}`" />
@@ -19,8 +19,6 @@
                 <h3>{{ beat.nom }}</h3>
               </div>
               <div class="content">
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{
-                  beat.licence }}</span></p>
                 <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{
                   beat.prix }} XAF</span></p>
                 <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{
