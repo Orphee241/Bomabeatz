@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Beatmaker;
 use App\Models\Beat;
+use App\Models\Paiement;
 use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -32,14 +33,18 @@ class ClientController extends Controller
 
     public function beats()
     {
+
         $beats = Beat::all();
 
         return inertia("Beats")->with("beats", $beats);
     }
 
-    public function beat_detail($id){
-        $beat = Beat::find($id);
+    public function beat_detail($id)
+    {
 
+
+        $beat = Beat::find($id);
+        
         return inertia("Beat_detail")->with("beat", $beat);
     }
 
@@ -58,6 +63,7 @@ class ClientController extends Controller
         return inertia("Signup");
     }
 
+    /* Inscription */
     public function user_signup(Request $request)
     {
 
@@ -151,25 +157,27 @@ class ClientController extends Controller
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                $utilisateurs = Utilisateur::where('email', $email)->first();
+                $utilisateur = Utilisateur::where('email', $email)->first();
 
-                if (isset($utilisateurs->email)) {
+                if (isset($utilisateur->email)) {
 
-                    if ($utilisateurs->email == $email && password_verify($password, $utilisateurs->mdp)) {
+                    if ($utilisateur->email == $email && password_verify($password, $utilisateur->mdp)) {
 
 
                         /* dispatch(function(){
                             sleep(3);
                         })->delay(now()->addSeconds(3)); */
 
-                        $request->session()->put("utilisateurs", $utilisateurs);
+                        $request->session()->put("userId", $utilisateur->id);
+                        $request->session()->put("loggedMsg", "Vous êtes connecté");
                         $request->session()->put("successMsg", "Vous êtes connecté");
+                        $request->session()->put("userLogged", $utilisateur->pseudo);
 
                         $defaulRoute = route("home");
                         $intendedRoute = redirect()->intended($defaulRoute)->getTargetUrl();
 
                         //dd($request->session()->get("utilisateurs"), $request->session()->get("successMsg"));
-                        return Inertia::location($intendedRoute);
+                        return redirect($intendedRoute);
                     } else {
                         return back()->withErrors([
                             "errorMsg" => "Adresse email ou mot de passe incorrecte"
@@ -190,13 +198,16 @@ class ClientController extends Controller
 
     public function logout()
     {
-        if (session()->has("successMsg")) {
+        if (session()->has("successMsg") || session()->has("loggedMsg") || session()->has("userLogged")) {
             session()->pull("successMsg");
-        }
+            session()->pull("loggedMsg");
+            session()->pull("userLogged");
 
-        return Inertia::location("login");
+            return redirect("login");
+        }
     }
 
+    
     public function contact()
     {
         return inertia("Contact", ["pageTitle" => "Bomabeatz | Contact"]);
@@ -230,8 +241,13 @@ class ClientController extends Controller
             "portfeuille",
             "disbursement",
             "redirect_success",
-            "redirect_error"
+            "redirect_error",
+            "name_user",
+            "beat_name",
+            "id_user"
         ]);
+
+
 
         $amount = $request->amount;
         $reference = $request->reference;
@@ -240,64 +256,118 @@ class ClientController extends Controller
         $redirect_success = $request->redirect_success;
         $redirect_error = $request->redirect_error;
 
-        try {
+        $nom_utilisateur = $request->name_user;
+        $id_utilisateur = $request->id_user;
+        $nom_beat = $request->beat_name;
 
-            $url = 'https://gateway.singpay.ga/v1/ext';
+        /* Enregistrement de la référence */
 
-            $headers = [
-                'accept' => '*/*',
-                'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
-                'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
-                'x-wallet' => '64493b08a2980dcdb93f5529',
-                'Content-Type' => 'application/json',
-            ];
+        if (session()->has("userLogged")) {
+            $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
-            $data = [
-                'portefeuille' => $portfeuille,
-                'reference' => $reference,
-                'redirect_success' => $redirect_success,
-                'redirect_error' => $redirect_error,
-                'amount' => $amount,
-                'disbursement' => $disbursement,
-                'logoURL' => '',
-                'isTransfer' => true,
-            ];
+            $paiement = new Paiement();
 
+            if (isset($paiementRetrieve->nom_utilisateur) && session()->get("userLogged") == $paiementRetrieve->nom_utilisateur) {
 
-            $response = $client->request('POST', $url, [
-                'headers' => $headers,
-                'json' => $data
-            ]);
+                $paiement->reference = $reference;
+                $paiement->date = now();
+                $paiement->nom_utilisateur = $nom_utilisateur;
+                $paiement->update();
+                
+            } else {
 
-
-            if ($response->getStatusCode() == 200) {
-                $responseBody = $response->getBody()->getContents();
-
-                $responseBodyObj = json_decode($responseBody);
-
-                $paymentLink = $responseBodyObj->link;
-
-                return Inertia::location($paymentLink);
+                $paiement->reference = $reference;
+                $paiement->date = now();
+                $paiement->nom_utilisateur = $nom_utilisateur;
+                $paiement->save();
             }
-        } catch (Exception $e) {
+        }
 
-            return back()->withErrors([
-                "msg" => "Une erreur s'est produite : veuillez réessayer"
-            ]);
+
+
+        $url = 'https://gateway.singpay.ga/v1/ext';
+
+        $headers = [
+            'accept' => '*/*',
+            'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+            'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+            'x-wallet' => '64493b08a2980dcdb93f5529',
+            'Content-Type' => 'application/json',
+        ];
+
+        $data = [
+            'portefeuille' => $portfeuille,
+            'reference' => $reference,
+            'redirect_success' => $redirect_success,
+            'redirect_error' => $redirect_error,
+            'amount' => $amount,
+            'disbursement' => $disbursement,
+            'logoURL' => '',
+            'isTransfer' => true,
+        ];
+
+
+        $response = $client->request('POST', $url, [
+            'headers' => $headers,
+            'json' => $data
+        ]);
+
+
+        if ($response->getStatusCode() == 200) {
+            $responseBody = $response->getBody()->getContents();
+
+            $responseBodyObj = json_decode($responseBody);
+
+            $paymentLink = $responseBodyObj->link;
+
+            return Inertia::location($paymentLink);
         }
     }
 
     /* Lorque le paiement du beat s'est effectué */
 
-    public function beat_paid($id){
+    public function beat_paid($id)
+    {
 
         $beat = Beat::find($id);
+        $paiement = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
-        return inertia("Beat_paid")->with("beat", $beat);
+        return inertia("Beat_paid")->with("beat", $beat)
+        ->with("paiement", $paiement);
     }
 
     public function notif()
     {
         return inertia("Notification");
+    }
+
+    public function infos_payment(Request $request, $id)
+    {
+
+        $request->validate([
+            "amount",
+            "id_user",
+            "beat_name",
+            "reference"
+        ]);
+
+        $montant = $request->amount;
+        $id_utilisateur = $request->id_user;
+        $nom_beat = $request->beat_name;
+        $reference = $request->reference;
+        $nom_utilisateur = $request->name_user;
+        $id_utilisateur = $request->id_user;
+
+
+        /* Enregistrement de la référence */
+        $paiement = new Paiement();
+
+        $paiement->reference = $reference;
+        $paiement->date = now();
+        $paiement->nom_utilisateur = $nom_utilisateur;
+        $paiement->id_utilisateur = $id_utilisateur;
+        $paiement->nom_beat = $nom_beat;
+        $paiement->montant = $montant;
+        $paiement->update();
     }
 }

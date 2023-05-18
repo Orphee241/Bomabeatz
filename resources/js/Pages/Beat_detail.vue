@@ -8,7 +8,7 @@
     <div style="width:" className="container-fluid px-5">
         <h1 style="margin-left: 1.8em;" className="allbeats">Beat</h1>
         <div style class="container section1">
-            <h2 style="color: rgb(39, 19, 85); font-weight: 700;">Informations sur le beat</h2>
+            <h2 style="color: rgb(39, 19, 85); font-weight: 700;">{{ user }} Informations sur le beat</h2>
             <div style="margin-bottom: 14em;" class="row">
                 <div class="col-sm-3">
                     <div class="beatCard">
@@ -60,7 +60,7 @@
                         </vue-plyr>
                     </div>
                     <div v-if="beat.prix != 0" class="col-lg-4">
-                        <button form="payForm" style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);"
+                        <button type="submit" :disabled="form.processing" form="payForm" style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);"
                             class="btn btn-sm ">Acheter le beat</button>
                     </div>
                     <div v-else class="col-lg-4">
@@ -78,8 +78,11 @@
         <input hidden v-model="form.portfeuille" type="text">
         <input hidden v-model="form.disbursement" type="text">
         <input hidden v-model="form.id" type="text">
+        <input hidden v-model="form.name_user" type="text">
+        <input hidden v-model="form.beat_name" type="text">
         <input hidden v-model="form.redirect_success" type="text">
         <input hidden v-model="form.redirect_error" type="text">
+        <input hidden v-model="form.id_user" type="text">
         <!-- <button btn btn-primary type="submit">Payer</button> -->
     </form>
 </template>
@@ -87,23 +90,31 @@
 <script>
 import { Head } from "@inertiajs/inertia-vue3";
 import { Link } from "@inertiajs/inertia-vue3";
-import { useForm } from "@inertiajs/inertia-vue3";
+
 
 
 
 export default {
     components: {
-        Head, Link
+        Head, Link 
     }
 }
 
 </script>
 <script setup>
+import { computed } from "vue";
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { useSwalError } from "../Alerts/alert";
 
 const props = defineProps({
     beat: Object,
 })
 
+
+const page = usePage();
+
+const user = computed(()=> page.props.value.flash.userLogged
+)
 
 const form = useForm({
   amount: "100",
@@ -112,8 +123,12 @@ const form = useForm({
   disbursement: "64493cdca2980dcf7b3f5567",
   id: "5",
   redirect_success: route("beat_paid", {id : props.beat.id}),
-  redirect_error: "http://bomabeatzz.test/notification"
+  redirect_error: "http://bomabeatzz.test/notification",
+  name_user: user,
+  beat_name: props.beat.nom,
+  id_user: props.beat.id
 })
+
 
 const payer = () => {
 
@@ -122,8 +137,6 @@ const payer = () => {
       useSwalError(errors.msg)
     }
   })
-
-
 }
 
 </script>

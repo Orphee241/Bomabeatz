@@ -22,8 +22,8 @@ return new class extends Migration
                 $table->unsignedBigInteger("like")->nullable();
                 $table->string("licence");
                 $table->string("prix");
-                $table->unsignedBigInteger("beatmaker_id");
-                $table->foreign("beatmaker_id")->references("id")->on("beatmaker");
+                $table->unsignedBigInteger("id_utilisateur");
+                $table->foreign("id_utilisateur")->references("id")->on("utilisateurs");
                 $table->date("date");
                 $table->timestamps();
             });

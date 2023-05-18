@@ -41,12 +41,13 @@ class HandleInertiaRequests extends Middleware
        
 
             "flash" => [
+                "loggedMsg" => fn () => $request->session()->get("loggedMsg"),
                 "successMsg" => fn () => $request->session()->get("successMsg"),
-                "errorMsg"  => fn () => $request->session()->get("errorMsg")
+                "userLogged"  => fn () => $request->session()->get("userLogged")
             ],
             
             "auth" => [
-                "utilisateurs" => fn () => $request->session()->get("utilisateurs")
+                "utilisateur" => fn () => $request->session()->get("utilisateur"),   
             ],
         ]);
     }

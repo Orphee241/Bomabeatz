@@ -50,5 +50,7 @@ Route::get('/about', [ClientController::class, "about"])->name("about");
 Route::get('/beat_detail/{id}', [ClientController::class, "beat_detail"])->name("beat_detail");
 
 Route::get('/beat_paid/{id}', [ClientController::class, "beat_paid"])
-->middleware("authentikated")
+->middleware("beat_paid")
 ->name("beat_paid");
+
+Route::post('/infos_payment/{id}', [ClientController::class, "infos_payment"])->name("infos_payment");

@@ -6,7 +6,12 @@
     <div className="header2">
     </div>
     <div style="width:" className="container-fluid px-5">
-        <h6 class="alert alert-success">Paiement effectué avec succès. Vous pouver maintenant télécharger le beat</h6>
+        <h6 v-if="!paiement.montant == null" class="alert alert-success">Paiement effectué avec succès. {{ user.pseudo }}, Vous pouver maintenant télécharger
+            le beat
+        </h6>
+        <h6 v-else class="alert alert-danger">
+            {{ user.pseudo }} Vous n'avez pas encore effectué le paiement
+        </h6>
         <h1 style="margin-left: 1.8em;" className="allbeats">Beat</h1>
         <div style class="container section1">
             <h2 style="color: rgb(39, 19, 85); font-weight: 700;">Informations sur le beat</h2>
@@ -41,9 +46,27 @@
                     </div>
                 </div>
                 <div style="width: 75%;" class="row">
-                    <div v-if="beat.prix != 0" class="col-lg-5">
-                        <button @click="downloadFile" style="background-color: rgb(39, 19, 85); color: white;" class="btn btn-small">Télécharger le beat au format mp3</button>
+                    <!-- Si le beat est payant -->
+                    <div v-if="beat.prix != 0" class="col-lg-12">
+                        <!-- Si le paiement n'a pas été effectué -->
+                        <div class="col-lg-5" v-if="paiement.montant == null">
+                            <button disabled
+                                style="background-color: rgb(174, 0, 0); color: white;" class="btn btn-small">
+                                <i style="color: rgb(255, 255, 255);" class="bx bxs-lock">
+                                 Payez pour télécharger le beat
+                                </i>
+                            </button>
+                        </div>
+                        <!-- S'il a été effectué -->
+                        <div class="col-lg-5" v-else>
+                            <button form="payForm" @click="downloadFile"
+                                style="background-color: rgb(39, 19, 85); color: white;" class="btn btn-small">Télécharger
+                                le
+                                beat au format mp3
+                            </button>
+                        </div>
                     </div>
+                    <!-- Si le beat n'est pas payant -->
                     <div v-else class="col-lg-4">
                         <a class="btn btn-small"
                             style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);" download
@@ -51,6 +74,12 @@
 
                     </div>
                 </div>
+                <form @submit.prevent="paiementInfos" id="payForm">
+                    <input hidden v-model="form.amount" type="text">
+                    <input hidden v-model="form.id_user" type="text">
+                    <input hidden v-model="form.beat_name" type="text">
+                    <!-- <button btn btn-primary type="submit">Payer</button> -->
+                </form>
             </div>
 
         </div>
@@ -72,10 +101,21 @@ export default {
 
 </script>
 <script setup>
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
+import { useSwalError, useSwalSuccess } from "../Alerts/alert";
 
-defineProps({
+const props = defineProps({
     beat: Object,
+    paiement: Object
 })
+
+const page = usePage();
+
+const user = computed(() => {
+    return page.props.value.flash.userLogged
+})
+
 
 
 const downloadFile = () => {
@@ -85,6 +125,25 @@ const downloadFile = () => {
     link.download = "btm.png"
     link.target = "_blank"
     link.click();
+}
+
+
+const form = useForm({
+    amount: "100",
+    reference: "ref" + Date.now(),
+    name_user: user.pseudo,
+    beat_name: props.beat.nom
+})
+
+
+
+const paiementInfos = () => {
+    form.post(route("infos_payment", { id: props.beat.id }), {
+        onError: (errors) => {
+            useSwalError(errors.msg)
+        }
+    })
+
 }
 
 

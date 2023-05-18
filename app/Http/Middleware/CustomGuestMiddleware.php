@@ -17,9 +17,14 @@ class CustomGuestMiddleware
     public function handle(Request $request, Closure $next)
     {
         if(!$request->session()->has("successMsg")){
+
             return $next($request);
+            
         }else{
-            return redirect(route("home"));
+
+            return back()->withErrors([
+                "errorMsg" => "Veuiller entrer une adresse email valide"
+            ]);
         }
         
     }
