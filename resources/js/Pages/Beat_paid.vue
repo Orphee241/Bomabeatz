@@ -6,11 +6,11 @@
     <div className="header2">
     </div>
     <div style="width:" className="container-fluid px-5">
-        <h6 v-if="!paiement.montant == null" class="alert alert-success">Paiement effectué avec succès. {{ user.pseudo }}, Vous pouver maintenant télécharger
+        <h6 v-if="!(paiement.montant == null)" class="alert alert-success">Paiement effectué avec succès. {{ user }}, Vous pouver maintenant télécharger
             le beat
         </h6>
         <h6 v-else class="alert alert-danger">
-            {{ user.pseudo }} Vous n'avez pas encore effectué le paiement
+            {{ user }} Vous n'avez pas encore effectué le paiement
         </h6>
         <h1 style="margin-left: 1.8em;" className="allbeats">Beat</h1>
         <div style class="container section1">

@@ -14,32 +14,19 @@
             <div class="image">
               <img :src="`${beat.image}`" />
             </div>
-            <div class="beatCard-inner">
-              <div style="padding: 0px; margin: 0;" class="header">
+            <div class="beatCard-in">
+              <div style="padding: 0px; margin: 0;" class="head">
                 <h3>{{ beat.nom }}</h3>
               </div>
-              <div class="content">
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{
+              <div class="infos">
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 700;">{{
                   beat.prix }} XAF</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{
-                  beat.beatmaker }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span
-                    style="font-weight: 500;">{{ beat.date }}</span></p>
                 <div class="row">
-                  <!--  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
-                    </p>
-                  </div>
-                  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
-                    </p>
-                  </div> -->
                 </div>
                 <a href="#" ></a>
                 
-                <Link class="btn btn3" :href="route('beat_detail', {id : beat.id})">Ecouter</Link>
+                <Link class="btn btn3" :href="route('beat_detail', {id : beat.id})">
+                  <i style="color: rgb(39, 19, 85); font-size: 50px; transform: translateY(-6px); " class="bx bx-play-circle"></i></Link>
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
-            $table->integer("montant");
+            $table->integer("montant")->nullable();
             $table->string("nom_utilisateur");
             $table->string("reference");
             $table->unsignedBigInteger("id_utilisateur");

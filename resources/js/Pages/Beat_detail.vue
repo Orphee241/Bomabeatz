@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="beatInfos col-lg-3 col-sm-12">
-                    <p class="beatInfosItem">Titre: {{ beat.nom }}</p>
+                    <h5 class="beatInfosItem1"> {{ beat.nom }}</h5>
                     <p class="beatInfosItem"><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker: {{
                         beat.beatmaker }}</p>
                     <p class="beatInfosItem"><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié: {{
@@ -53,14 +53,19 @@
                 <div style="width: 50%;" class="row">
                     <div class="buttonSection col-lg-7">
                         <vue-plyr ref="plyr">
-                            <audio controls crossorigin playsinline>
+                            <audio style="visibility: hidden    ;" crossorigin playsinline>
                                 <source src="../../../public/Eight.mp3" type="audio/mp3" />
                                 <source src="/path/to/audio.ogg" type="audio/ogg" />
                             </audio>
                         </vue-plyr>
+                        <p><i style="font-size: 50px;" class="play bx bx-play-circle"></i></p>
                     </div>
+                    <!-- <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay
+                        src="https://google.com">
+                    </iframe> -->
                     <div v-if="beat.prix != 0" class="col-lg-4">
-                        <button type="submit" :disabled="form.processing" form="payForm" style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);"
+                        <button type="submit" :disabled="form.processing" form="payForm"
+                            style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);"
                             class="btn btn-sm ">Acheter le beat</button>
                     </div>
                     <div v-else class="col-lg-4">
@@ -91,16 +96,14 @@
 import { Head } from "@inertiajs/inertia-vue3";
 import { Link } from "@inertiajs/inertia-vue3";
 
-
-
-
 export default {
     components: {
-        Head, Link 
+        Head, Link
     }
 }
 
 </script>
+
 <script setup>
 import { computed } from "vue";
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
@@ -113,30 +116,30 @@ const props = defineProps({
 
 const page = usePage();
 
-const user = computed(()=> page.props.value.flash.userLogged
+const user = computed(() => page.props.value.flash.userLogged
 )
 
 const form = useForm({
-  amount: "100",
-  portfeuille: "ng2666",
-  reference: "ref" + Date.now(),
-  disbursement: "64493cdca2980dcf7b3f5567",
-  id: "5",
-  redirect_success: route("beat_paid", {id : props.beat.id}),
-  redirect_error: "http://bomabeatzz.test/notification",
-  name_user: user,
-  beat_name: props.beat.nom,
-  id_user: props.beat.id
+    amount: "100",
+    portfeuille: "ng2666",
+    reference: "ref" + Date.now(),
+    disbursement: "64493cdca2980dcf7b3f5567",
+    id: "5",
+    redirect_success: route("beat_paid_verify", { id: props.beat.id }),
+    redirect_error: "http://gonabeatz.test/notification",
+    name_user: user,
+    beat_name: props.beat.nom,
+    id_user: props.beat.id
 })
 
 
 const payer = () => {
 
-  form.post(route("payment"), {
-    onError: (errors) => {
-      useSwalError(errors.msg)
-    }
-  })
+    form.post(route("payment"), {
+        onError: (errors) => {
+            useSwalError(errors.errorMsg)
+        }
+    })
 }
 
 </script>

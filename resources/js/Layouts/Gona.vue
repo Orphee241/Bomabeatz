@@ -21,12 +21,8 @@
                 <li class="nav-item dropdown pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center " :href="route('beats')">Beats</InertiaLink>
                 </li>
-                <li @click="redirectToLogin" class="nav-item dropdown pe-3">
-                    <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('pricing')">Vendre un Beat
-                    </InertiaLink>
-                </li>
                 <li class="nav-item pe-3">
-                    <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('vip')">VIP</InertiaLink>
+                    <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('donation')">Faire Un Don</InertiaLink>
                 </li>
                 <li class="nav-item dropdown pe-3">
                     <InertiaLink class="nav-link  d-flex align-items-center pe-0" :href="route('sellbeat')">Formations

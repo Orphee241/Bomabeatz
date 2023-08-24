@@ -6,13 +6,12 @@
       <div v-if="$page.props.flash.successMsg">
         {{ useSwalSuccess($page.props.flash.successMsg) }}
       </div>
-      <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Bomabeatz</h2>
-      <h3 className="text-center">La plateforme qui te permet d'acheter ou de vendre ton beat.</h3>
-      <h5 className="text-center">Bomabeatz est une plateforme musicale africaine où il est possible de télécharger
-        gratuitement, d'acheter ou de vendre ses productions musicales.</h5>
+      <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Gonabeatz</h2>
+      <h3 className="text-center">La plateforme de l'heure.</h3>
+      <h5 className="text-center">Gonabeatz est une plateforme musicale africaine où il est possible de télécharger
+        gratuitement ou d'acheter des productions musicales de type instrumentale.</h5>
       <div className="callToAction">
         <Link :href="route('beats')" class="btn btn1">Je souhaite découvrir les beats</Link>
-        <Link :href="route('pricing')" class="btn btn2">Je souhaite vendre des beats</Link>
       </div>
     </div>
   </div>
@@ -23,33 +22,24 @@
       beats du moments</h2>
     <div class="row">
 
-      <div v-for="beat in beats" class="col-sm-3">
+      <div v-for="beat in beats" :key="beat.id" class="col-sm-3">
           <div class="beatCard">
             <div class="image">
               <img :src="`${beat.image}`" />
             </div>
-            <div class="beatCard-inner">
-              <div style="padding: 0px; margin: 0;" class="header">
+            <div class="beatCard-in">
+              <div style="padding: 0px; margin: 0;" class="head">
                 <h3>{{ beat.nom }}</h3>
               </div>
-              <div class="content">
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{ beat.licence }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{ beat.prix }} XAF</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{ beat.beatmaker }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span style="font-weight: 500;">{{ beat.date }}</span></p>
+              <div class="infos">
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 700;">{{
+                  beat.prix }} XAF</span></p>
                 <div class="row">
-                 <!--  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
-                    </p>
-                  </div>
-                  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
-                    </p>
-                  </div> -->
                 </div>
-                <a href="#" class=" btn btn3">Ecouter</a>
+                <a href="#" ></a>
+                
+                <Link class="btn btn3" :href="route('beat_detail', {id : beat.id})">
+                  <i style="color: rgb(39, 19, 85); font-size: 50px; transform: translateY(-6px); " class="bx bx-play-circle"></i></Link>
               </div>
             </div>
           </div>
@@ -65,33 +55,24 @@
         class="bx bxs-speaker"></i>Nouveaux beats</h2>
     <div class="row">
 
-      <div v-for="beat in beats" class="col-sm-3">
+      <div v-for="beat in beats" :key="beat.id" class="col-sm-3">
           <div class="beatCard">
             <div class="image">
               <img :src="`${beat.image}`" />
             </div>
-            <div class="beatCard-inner">
-              <div style="padding: 0px; margin: 0;" class="header">
+            <div class="beatCard-in">
+              <div style="padding: 0px; margin: 0;" class="head">
                 <h3>{{ beat.nom }}</h3>
               </div>
-              <div class="content">
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-file"></i>Licence : <span style="font-weight: 500;">{{ beat.licence }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 500;">{{ beat.prix }} XAF</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-user"></i>Beatmaker : <span style="font-weight: 500;">{{ beat.beatmaker }}</span></p>
-                <p><i style="color: rgb(39, 19, 85)" class="bx bx-calendar"></i>Publié le : <span style="font-weight: 500;">{{ beat.date }}</span></p>
+              <div class="infos">
+                <p><i style="color: rgb(39, 19, 85)" class="bx bx-euro"></i>Prix : <span style="font-weight: 700;">{{
+                  beat.prix }} XAF</span></p>
                 <div class="row">
-                 <!--  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bxs-heart">5</i>
-                    </p>
-                  </div>
-                  <div class="col-lg-2">
-                    <p class="icon">
-                      <i style="color: rgb(39, 19, 85)" class="bx bx-comment">15</i>
-                    </p>
-                  </div> -->
                 </div>
-                <a href="#" class=" btn btn3">Ecouter</a>
+                <a href="#" ></a>
+                
+                <Link class="btn btn3" :href="route('beat_detail', {id : beat.id})">
+                  <i style="color: rgb(39, 19, 85); font-size: 50px; transform: translateY(-6px); " class="bx bx-play-circle"></i></Link>
               </div>
             </div>
           </div>
@@ -102,36 +83,11 @@
 
   <!-- Section 3 -->
 
-  <div class="container section3">
-    <div class="row">
-      <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bx-speaker"></i>Je
-        suis beatmaker/producteur</h2>
-      <div class="col-lg-8">
-        <p><strong>Bomabeatz</strong> vous donne la possibilité de <strong>vendre vos beats</strong> (instrumentales).
-          <br>
-          Vous êtes un <strong> beatmaker, un producteur </strong> de musique ? <br> Sachez que vous êtes au
-          bon endroit. <br>
-        </p>
-        <p>
-          Vous percevez jusqu'à <strong>90%</strong> de chacune de vos ventes. <br>
-          En effet, Bomabeatz perçoit <strong>10%</strong> sur chacune de vos ventes et vous reverse le reste.
-        </p>
-        <p>Si vous êtes intéressé, rejoignez-nous.</p>
-        <Link class="btn3" :href="route('pricing')">Je vends mes beats sur Bomabeatz</Link>
-      </div>
-      <div class="col-lg-4">
-        <p>
-          <img class="img rounded-3 " style="width: 300px;" src="../../../public/beatmaker.png" alt="">
-        </p>
-      </div>
-    </div>
-  </div>
-
   <!-- Section 4 -->
 
   <div className="container section4">
     <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)"
-        class="bx bxs-crown"></i>Devenir VIP (réservé aux artistes)</h2>
+        class="bx bxs-crown"></i>Devenir VIP</h2>
     <div className="row">
       <div class="col-lg-12">
         <p>Devenez VIP et :</p>
@@ -146,16 +102,15 @@
   <!-- Section 5 -->
 
   <div className="container section5">
-    <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-user"></i>Top
-      beatmakers</h2>
+    <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)" class="bx bxs-user"></i>Qui est GONA ?</h2>
     <div className="row">
       <p>Les beatmakers qui nous font confiance</p>
     </div>
     <div class="row">
       <div class="col-lg-5 mb-2">
         <!-- Slides with captions -->
-      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-        <!-- <div class="carousel-indicators">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+          <!-- <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active rounded-3" aria-current="true" aria-label="Slide 1"></button>
                   <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -220,7 +175,7 @@
             <div class="info-box beatCard" style="width: 100%">
               <i class="bi bi-geo-alt"></i>
               <h3>Adresse</h3>
-              <p>Essassa,<br>Ntoum, Estauaire</p>
+              <p>Essassa,<br>Ntoum, Estuaire</p>
             </div>
           </div>
           <div class="col-lg-6">
@@ -260,7 +215,7 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
 
-    components: {
+  components: {
     Head, Link
   }
 }

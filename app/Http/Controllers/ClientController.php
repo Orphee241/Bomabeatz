@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Stmt\TryCatch;
 
 class ClientController extends Controller
 {
@@ -44,7 +45,7 @@ class ClientController extends Controller
 
 
         $beat = Beat::find($id);
-        
+
         return inertia("Beat_detail")->with("beat", $beat);
     }
 
@@ -207,27 +208,22 @@ class ClientController extends Controller
         }
     }
 
-    
+
     public function contact()
     {
-        return inertia("Contact", ["pageTitle" => "Bomabeatz | Contact"]);
+        return inertia("Contact");
     }
 
     public function about()
     {
-        return inertia("About", ["pageTitle" => "Bomabeatz | A propos"]);
+        return inertia("About");
     }
 
-    public function vip()
+    public function donation()
     {
-        return inertia("Vip", ["pageTitle" => "Bomabeatz | VIP"]);
+        return inertia("Donation");
     }
 
-    public function pricing()
-    {
-        $utilisateur = Utilisateur::all();
-        return inertia("Pricing")->with("utilisateur", $utilisateur);
-    }
 
     /* -----------Payment-------------- */
     public function payment(Request $request)
@@ -267,16 +263,24 @@ class ClientController extends Controller
 
             $paiement = new Paiement();
 
+            //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
+            //dans la table paiement, dans le cas contraire, on insère toutes les données dans la table paiement
+            
             if (isset($paiementRetrieve->nom_utilisateur) && session()->get("userLogged") == $paiementRetrieve->nom_utilisateur) {
 
-                $paiement->reference = $reference;
-                $paiement->date = now();
-                $paiement->nom_utilisateur = $nom_utilisateur;
-                $paiement->update();
+                //$paiement->reference = $reference;
+                //$paiement->date = now();
+                //$paiement->nom_utilisateur = $nom_utilisateur;
+                //$paiement->update();
+
+                $paiement::where("nom_utilisateur", $nom_utilisateur)->update(["reference" => $reference, "date" => now()]);
                 
             } else {
 
                 $paiement->reference = $reference;
+                //$paiement->montant = $amount;
+                $paiement->nom_beat = $nom_beat;
+                $paiement->id_utilisateur = $id_utilisateur;
                 $paiement->date = now();
                 $paiement->nom_utilisateur = $nom_utilisateur;
                 $paiement->save();
@@ -284,47 +288,72 @@ class ClientController extends Controller
         }
 
 
-
-        $url = 'https://gateway.singpay.ga/v1/ext';
-
-        $headers = [
-            'accept' => '*/*',
-            'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
-            'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
-            'x-wallet' => '64493b08a2980dcdb93f5529',
-            'Content-Type' => 'application/json',
-        ];
-
-        $data = [
-            'portefeuille' => $portfeuille,
-            'reference' => $reference,
-            'redirect_success' => $redirect_success,
-            'redirect_error' => $redirect_error,
-            'amount' => $amount,
-            'disbursement' => $disbursement,
-            'logoURL' => '',
-            'isTransfer' => true,
-        ];
+        try {
+            //code...
 
 
-        $response = $client->request('POST', $url, [
-            'headers' => $headers,
-            'json' => $data
-        ]);
+            $url = 'https://gateway.singpay.ga/v1/ext';
+
+            $headers = [
+                'accept' => '*/*',
+                'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+                'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+                'x-wallet' => '64493b08a2980dcdb93f5529',
+                'Content-Type' => 'application/json',
+            ];
+
+            $data = [
+                'portefeuille' => $portfeuille,
+                'reference' => $reference,
+                'redirect_success' => $redirect_success,
+                'redirect_error' => $redirect_error,
+                'amount' => $amount,
+                'disbursement' => $disbursement,
+                'logoURL' => '',
+                'isTransfer' => true,
+            ];
 
 
-        if ($response->getStatusCode() == 200) {
-            $responseBody = $response->getBody()->getContents();
+            $response = $client->request('POST', $url, [
+                'headers' => $headers,
+                'json' => $data
+            ]);
 
-            $responseBodyObj = json_decode($responseBody);
 
-            $paymentLink = $responseBodyObj->link;
+            if ($response->getStatusCode() == 200) {
+                $responseBody = $response->getBody()->getContents();
 
-            return Inertia::location($paymentLink);
+                $responseBodyObj = json_decode($responseBody);
+
+                $paymentLink = $responseBodyObj->link;
+
+                return Inertia::location($paymentLink);
+            }
+            
+        } catch (Exception $e) {
+
+            return back()->withErrors([
+                "errorMsg" => "Une erreur s'est produite"
+            ]);
+            
         }
     }
 
     /* Lorque le paiement du beat s'est effectué */
+
+    public function beat_paid_verify($id){
+        
+        $client = new Client();
+
+        $beat = Beat::find($id);
+
+        //return inertia("Beat_detail")->with("beat", $beat);
+        
+        $reference = "ref". now();
+
+    
+
+    } 
 
     public function beat_paid($id)
     {
@@ -333,7 +362,7 @@ class ClientController extends Controller
         $paiement = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
         return inertia("Beat_paid")->with("beat", $beat)
-        ->with("paiement", $paiement);
+            ->with("paiement", $paiement);
     }
 
     public function notif()
