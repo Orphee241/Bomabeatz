@@ -354,6 +354,36 @@ class ClientController extends Controller
     
 
     } 
+    
+    public function verify(){
+        
+        $client = new Client();
+
+        //return inertia("Beat_detail")->with("beat", $beat);
+        
+        $reference = "ref". now();
+
+        
+        $url = 'https://gateway.singpay.ga/v1/ext';
+
+        $headers = [
+            'accept' => '*/*',
+            'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+            'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+            'x-wallet' => '64493b08a2980dcdb93f5529',
+            'Content-Type' => 'application/json',
+        ];
+        
+        $response = $client->request('POST', $url, [
+            'headers' => $headers
+        ]);
+
+        
+
+        return inertia("Beat_paid_verify");
+
+    
+    } 
 
     public function beat_paid($id)
     {

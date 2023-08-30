@@ -125,7 +125,7 @@ const form = useForm({
     reference: "ref" + Date.now(),
     disbursement: "64493cdca2980dcf7b3f5567",
     id: "5",
-    redirect_success: route("beat_paid_verify", { id: props.beat.id }),
+    redirect_success: route("verify"),
     redirect_error: "http://gonabeatz.test/notification",
     name_user: user,
     beat_name: props.beat.nom,

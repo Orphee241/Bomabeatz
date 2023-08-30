@@ -51,6 +51,7 @@ Route::get('/beat_detail/{id}', [ClientController::class, "beat_detail"])->name(
 
 Route::get('/beat_paid/{id}', [ClientController::class, "beat_paid"])->name("beat_paid");
 
-Route::get('/beat_paid_verify/{id}', [ClientController::class, "beat_paid_verify"])->name("beat_paid_verify");
 
+Route::get('/beat_paid_verify/{id}', [ClientController::class, "beat_paid_verify"])->name("beat_paid_verify");
+Route::get('/beat_paid_verify', [ClientController::class, "verify"])->name("verify");
 Route::post('/infos_payment/{id}', [ClientController::class, "infos_payment"])->name("infos_payment");

@@ -246,6 +246,7 @@
 
   .foot{
     background-color: rgb(10, 6, 17);
+    margin-top: 8em;
   }
 
   /* Buy-btn */
@@ -471,5 +472,28 @@
   }
 
   .donation .rowOne{
+    margin-top: 3em;
+  }
+
+
+  /* Page beat_paid_verify */
+
+  .verify{
+    margin-top: 9em;
+    margin-bottom: 35em;
+  }
+
+  .verify .btn{
+    color: white;
+  }
+
+
+  /* Page contact */
+  .contact{
+    margin-top: 6em;
+
+  }
+
+  .contact .section{
     margin-top: 3em;
   }
