@@ -6,9 +6,9 @@
       <div v-if="$page.props.flash.successMsg">
         {{ useSwalSuccess($page.props.flash.successMsg) }}
       </div>
-      <h2 style="font-weight: 700;" className=" text-center">Bienvenue sur Gonabeatz</h2>
+      <h2 style="font-weight: 700; margin-bottom: 0.5em;" className=" text-center">Bienvenue sur Gonabeatz</h2>
       <h3 className="text-center">La plateforme de l'heure.</h3>
-      <h5 className="text-center">Gonabeatz est une plateforme musicale africaine où il est possible de télécharger
+      <h5 className="text-center">Gonabeatz est une plateforme où il est possible de télécharger
         gratuitement ou d'acheter des productions musicales de type instrumentale.</h5>
       <div className="callToAction">
         <Link :href="route('beats')" class="btn btn1">Je souhaite découvrir les beats</Link>
@@ -87,7 +87,7 @@
 
   <div className="container section4">
     <h2 style="color: rgb(39, 19, 85); font-weight: 800;"><i style="color: rgb(39, 19, 85)"
-        class="bx bxs-crown"></i>Devenir VIP</h2>
+        class="bx bxs-gift"></i>Faire un don</h2>
     <div className="row">
       <div class="col-lg-12">
         <p>Devenez VIP et :</p>

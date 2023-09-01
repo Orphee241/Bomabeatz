@@ -7,8 +7,7 @@
             <a href="index.html" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
 
-                <h3 style="color: rgb(39, 19, 85); font-weight: 800; letter-spacing: -2.8px;" class=""><i
-                        style="color: rgb(39, 19, 85); margin-right: -3px;" class="bx bxs-speaker"></i>omabeatz</h3>
+                <h3 style="color: rgb(39, 19, 85); font-weight: 800; letter-spacing: -2.8px;" class="">Gonabeatz</h3>
             </a>
         </div><!-- End Logo -->
 
@@ -62,7 +61,7 @@
     <div class="foot container-fluid d-flex justify-content-center">
         <footer id="foote" class="footer">
             <div class="copyright">
-                Copyright &copy; <strong><span>Bomabeatz</span></strong>. Tous droits réservés.
+                Copyright &copy; <strong><span>Gonabeatz</span></strong>. Tous droits réservés.
             </div>
             <div class="credits">
                 Conception by <a href="https://gona241.vercel.app/">GONA</a>

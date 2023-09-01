@@ -364,7 +364,7 @@ class ClientController extends Controller
         $reference = "ref". now();
 
         
-        $url = 'https://gateway.singpay.ga/v1/ext';
+        //$url = 'https://gateway.singpay.ga/v1/ext';
 
         $headers = [
             'accept' => '*/*',
@@ -374,9 +374,9 @@ class ClientController extends Controller
             'Content-Type' => 'application/json',
         ];
         
-        $response = $client->request('POST', $url, [
+        /* $response = $client->request('POST', $url, [
             'headers' => $headers
-        ]);
+        ]); */
 
         
 

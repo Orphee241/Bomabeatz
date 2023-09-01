@@ -1,7 +1,7 @@
 
 <template>
     <Head>
-        <title>gona</title>
+        <title>Vérification</title>
     </Head>
     <div className="header2">
     </div>

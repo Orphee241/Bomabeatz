@@ -15,25 +15,36 @@
             </div>
 
             <div class="col-lg-6">
-          <div class="pricing-item">
-            <h3 style="color: rgb(39, 19, 85); font-weight: 800;">Pack Intermédiaire</h3>
-            <div class="icon">
-              <i class="bx bx-check-square"></i>
-            </div>
+              
+              <div class="row g-4 py-lg-5 aos-init aos-animate" data-aos="zoom-out" data-aos-delay="100">
 
-            <h4 style="color: rgb(39, 19, 85);">5 000<sup>XAF</sup><span> / mois</span></h4>
-            <div class="ul">
-              <li><i class="bi bi-check"></i> Vous pouvez uploader jusqu'à 40 beats</li>
-              <li><i class="bi bi-check"></i> Bomabeatz perçoit 20% de comissions sur chaque beat vendu</li>
-            </div>
-         
-            <div class="text-center"><a href="https://gateway.singpay.ga/ext/v1/payment/141025315" class="buy-btn">Je
-                choisis ce pack</a></div>
+                <div class="col-lg-4">
+                  <div class="pricing-item">
+                    <h3>Free Plan</h3>
+                    <div class="icon">
+                      <i class="bi bi-box"></i>
+                    </div>
+                    <h4><sup>$</sup>0<span> / month</span></h4>
+                    <ul>
+                      <li><i class="bi bi-check"></i> Quam adipiscing vitae proin</li>
+                      <li><i class="bi bi-check"></i> Nec feugiat nisl pretium</li>
+                      <li><i class="bi bi-check"></i> Nulla at volutpat diam uteera</li>
+                      <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
+                      <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+                    </ul>
+                    <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
+                  </div>
+                </div><!-- End Pricing Item -->
+
+             </div>
+
           </div>
-        </div><!-- End Pricing Item -->
         </div>
-    </div>
+         
+      </div>
 </template>
+
+
 <script setup>
 
 </script>
