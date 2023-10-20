@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer("montant")->nullable();
             $table->string("nom_utilisateur");
             $table->string("reference");
+            $table->unsignedBigInteger("id_beat");
+            $table->foreign("id_beat")->references("id")->on("beats");
             $table->unsignedBigInteger("id_utilisateur");
             $table->foreign("id_utilisateur")->references("id")->on("utilisateurs");
             $table->string("nom_beat");

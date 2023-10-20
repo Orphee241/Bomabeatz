@@ -20,7 +20,7 @@
 /* Colors */
 :root {
   --color-default: #222222;
-  --color-primary: #008374;
+  --color-primary: rgb(39, 19, 85);
   --color-secondary: #f85a40;
 }
 
@@ -865,10 +865,10 @@
 --------------------------------------------------------------*/
 .pricing .pricing-item {
   padding: 20px 40px;
-  box-shadow: 0 3px 20px -2px rgba(108, 117, 125, 0.15);
+  box-shadow: 0 3px 20px -2px rgba(0, 136, 255, 0.15);
   background: #fff;
   height: 100%;
-  border: 3px solid rgb(39, 19, 85);
+  border: 93px solid rgb(0, 0, 0);
   position: relative;
   padding-top: 3em;
   border-radius: 15px;

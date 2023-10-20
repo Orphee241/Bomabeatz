@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Beatmaker;
 use App\Models\Beat;
 use App\Models\Paiement;
@@ -26,6 +27,11 @@ class ClientController extends Controller
             ->with("beats", $beats)
             ->with("beatmakers", $beatmakers);
     }
+
+    /*   public function drop(){
+        
+        return Storage::disk('dropbox')->files();
+    } */
 
     public function admin()
     {
@@ -240,7 +246,8 @@ class ClientController extends Controller
             "redirect_error",
             "name_user",
             "beat_name",
-            "id_user"
+            "beat_id",
+            "utilisateur_id"
         ]);
 
 
@@ -253,39 +260,64 @@ class ClientController extends Controller
         $redirect_error = $request->redirect_error;
 
         $nom_utilisateur = $request->name_user;
-        $id_utilisateur = $request->id_user;
+        $beat_id = $request->beat_id;
+        $utilisateur_id = $request->utilisateur_id;
         $nom_beat = $request->beat_name;
 
+
         /* Enregistrement de la référence */
+        try {
+            //code...
+        
 
         if (session()->has("userLogged")) {
-            $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
+           // $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
+      
+            $paiementRetrieve = Paiement::find($beat_id);
+
+            
 
             $paiement = new Paiement();
 
             //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
             //dans la table paiement, dans le cas contraire, on insère toutes les données dans la table paiement
-            
-            if (isset($paiementRetrieve->nom_utilisateur) && session()->get("userLogged") == $paiementRetrieve->nom_utilisateur) {
 
-                //$paiement->reference = $reference;
-                //$paiement->date = now();
-                //$paiement->nom_utilisateur = $nom_utilisateur;
-                //$paiement->update();
 
-                $paiement::where("nom_utilisateur", $nom_utilisateur)->update(["reference" => $reference, "date" => now()]);
+            if (
+                isset($paiementRetrieve->id_beat)
+            ) {
+
+                dd("1");
+
+                if( $paiementRetrieve->id_beat == $beat_id){
+                    
+                    dd("2");
+                    $paiement::where("id_beat", $beat_id)->update(["reference" => $reference]);
+
+                }
+
+                /* dd(session()->get("userLogged"). " oh"); */
                 
-            } else {
+            }else{
 
                 $paiement->reference = $reference;
                 //$paiement->montant = $amount;
                 $paiement->nom_beat = $nom_beat;
-                $paiement->id_utilisateur = $id_utilisateur;
+                $paiement->id_beat = $beat_id;
+                $paiement->id_utilisateur = $utilisateur_id;
                 $paiement->date = now();
                 $paiement->nom_utilisateur = $nom_utilisateur;
                 $paiement->save();
+                
             }
         }
+
+    } catch (Exception $e) {
+
+        return back()->withErrors([
+            "errorMsg" => "Une erreur s'est produito"
+        ]);
+    }
 
 
         try {
@@ -329,42 +361,39 @@ class ClientController extends Controller
 
                 return Inertia::location($paymentLink);
             }
-            
         } catch (Exception $e) {
 
             return back()->withErrors([
                 "errorMsg" => "Une erreur s'est produite"
             ]);
-            
         }
     }
 
     /* Lorque le paiement du beat s'est effectué */
 
-    public function beat_paid_verify($id){
-        
+    public function beat_paid_verify($id)
+    {
+
         $client = new Client();
 
         $beat = Beat::find($id);
 
         //return inertia("Beat_detail")->with("beat", $beat);
-        
-        $reference = "ref". now();
 
-    
+        $reference = "ref" . now();
+    }
 
-    } 
-    
-    public function verify(){
-        
+    public function verify()
+    {
+
         $client = new Client();
 
         //return inertia("Beat_detail")->with("beat", $beat);
-        
-        $reference = "ref". now();
 
-        
-        //$url = 'https://gateway.singpay.ga/v1/ext';
+        $reference = "ref" . time();
+
+
+        $url = 'https://gateway.singpay.ga/v1/transaction/api/search/by-reference/' . $reference;
 
         $headers = [
             'accept' => '*/*',
@@ -373,17 +402,50 @@ class ClientController extends Controller
             'x-wallet' => '64493b08a2980dcdb93f5529',
             'Content-Type' => 'application/json',
         ];
-        
-        /* $response = $client->request('POST', $url, [
+
+        $response = $client->request('GET', $url, [
             'headers' => $headers
-        ]); */
+        ]);
 
-        
+        if ($response->getStatusCode() == 200) {
 
-        return inertia("Beat_paid_verify");
+            $responseBody = $response->getBody()->getContents();
+            $responseBodyObj = json_decode($responseBody);
 
-    
-    } 
+            //dd($responseBodyObj);
+
+            if ($responseBodyObj->result == "Success") {
+
+                $paiement = new Paiement();
+
+                //$paiement->reference = $reference;
+                //$paiement->date = now();
+                //$paiement->nom_utilisateur = $nom_utilisateur;
+                //$paiement->update();
+
+                $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
+
+                /* if (isset($paiement->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
+
+                    
+                } else {
+
+                    $paiement::where("reference", $responseBodyObj->reference)->update(["montant" => $responseBodyObj->amount]);
+
+                    
+                } */
+            }
+
+
+            //$paymentLink = $responseBodyObj->link;
+
+            //return Inertia::location($paymentLink);
+        }
+
+
+
+        //return inertia("Beat_paid_verify");
+    }
 
     public function beat_paid($id)
     {

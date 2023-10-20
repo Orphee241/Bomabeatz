@@ -21,16 +21,6 @@
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
 
-    {{-- template --}}
-
-    <!-- Vendor CSS Files -->
-
-    {{-- lteadmin css --}}
-
-    <!-- Styles -->
-
-
-
 
     {{-- Ziggy --}}
     @routes
@@ -57,6 +47,7 @@
     @vite('resources/assets2/vendor/swiper/swiper-bundle.min.css') @inertiaHead
     @vite('resources/assets2/css/main.css') @inertiaHead
 
+
 </head>
 
 <body>
@@ -65,23 +56,23 @@
     @inertia
 
 
-    @vite('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
+    {{-- @vite('resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
     @vite('resources/assets/vendor/apexcharts/apexcharts.min.js') @inertiaHead
     @vite('resources/assets/vendor/tinymce/tinymce.min.js') @inertiaHead
     @vite('resources/assets/vendor/chart.js/chart.umd.js') @inertiaHead
     @vite('resources/assets/vendor/echarts/echarts.min.js') @inertiaHead
-    @vite('resources/assets/vendor/quill/quill.min.js') @inertiaHead
+    @vite('resources/assets/vendor/quill/quill.min.js') @inertiaHead --}}
 
     {{-- Assets2 --}}
 
-    @vite('resources/assets2/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
+   {{--  @vite('resources/assets2/vendor/bootstrap/js/bootstrap.bundle.min.js') @inertiaHead
     @vite('resources/assets2/vendor/aos/aos.js') @inertiaHead
     @vite('resources/assets2/vendor/glightbox/js/glightbox.min.js') @inertiaHead
     @vite('resources/assets2/vendor/purecounter/purecounter_vanilla.js') @inertiaHead
     @vite('resources/assets2/vendor/swiper/swiper-bundle.min.js') @inertiaHead
     @vite('resources/assets2/vendor/isotope-layout/isotope.pkgd.min.js') @inertiaHead
     @vite('resources/assets2/vendor/php-email-form/validate.js') @inertiaHead
-    @vite('resources/assets2/js/main.js') @inertiaHead
+    @vite('resources/assets2/js/main.js') @inertiaHead --}}
 
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>

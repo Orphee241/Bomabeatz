@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -55,6 +55,17 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+
+
+
+        "disks" => [
+            // ...
+            'dropbox' => [
+                'driver' => 'dropbox',
+                'authorization_token' => "sl.BmAw1ivP_j62s4DYYo5Wmwk4shimtr2PepI9ZGpSvoVqSE7mCaV8m5Gc798xBgX7ozTKlEGYJ702DutE-teIuDPHK9J69Qx8qq4UTzjVEr7szlelr3AtI6Tk6lgaTygze1JRhgxTva9z",
+            ],
+        ],
+
 
     ],
 

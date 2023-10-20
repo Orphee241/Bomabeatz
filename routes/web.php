@@ -37,6 +37,8 @@ Route::get('/categories', [ClientController::class, "categories"])->name("catego
 Route::get('/sellbeat', [ClientController::class, "sellbeat"])->name("sellbeat");
 //Route::get('/beats', [ClientController::class, "beats"])->name("beats");
 Route::get('/', [ClientController::class, "index"])->name("home");
+/* Route::get('/drop', [ClientController::class, "drop"])->name("drop"); */
+
 
 Route::get('/signup', [ClientController::class, "signup"])
     ->middleware("custom_guest")
