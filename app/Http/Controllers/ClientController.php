@@ -112,6 +112,7 @@ class ClientController extends Controller
 
                 $user = new Utilisateur();
 
+
                 if ($password == $password_confirm) {
 
                     $user->pseudo = htmlentities($pseudo);
@@ -268,56 +269,61 @@ class ClientController extends Controller
         /* Enregistrement de la référence */
         try {
             //code...
-        
-
-        if (session()->has("userLogged")) {
-           // $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
-      
-            $paiementRetrieve = Paiement::find($beat_id);
-
-            
-
-            $paiement = new Paiement();
-
-            //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
-            //dans la table paiement, dans le cas contraire, on insère toutes les données dans la table paiement
 
 
-            if (
-                isset($paiementRetrieve->id_beat)
-            ) {
+            if (session()->has("userLogged")) {
+                // $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
-                dd("1");
+                $paiementRetrieve = Paiement::where("id_beat", $beat_id)->first();
 
-                if( $paiementRetrieve->id_beat == $beat_id){
-                    
-                    dd("2");
-                    $paiement::where("id_beat", $beat_id)->update(["reference" => $reference]);
 
+                /*  if(($paiementRetrieve->id_beat)){
+                    dd($paiementRetrieve->id_beat);
+                } */
+
+
+                $paiement = new Paiement();
+
+                //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
+                //dans la table paiement, dans le cas contraire, on insère toutes les données dans la table paiement
+
+
+                if (isset($paiementRetrieve->id_beat)) {
+
+                    /*  dd("1"); */
+
+                    if ($paiementRetrieve->id_beat == $beat_id) {
+
+                        $paiement::where("id_beat", $beat_id)->update(["reference" => $reference, "updated_at" => now()]);
+                    } else {
+
+                        $paiement->reference = $reference;
+                        //$paiement->montant = $amount;
+                        $paiement->nom_beat = $nom_beat;
+                        $paiement->id_beat = $beat_id;
+                        $paiement->id_utilisateur = $utilisateur_id;
+                        $paiement->date = now();
+                        $paiement->nom_utilisateur = $nom_utilisateur;
+                        $paiement->save();
+                    }
+                } else {
+
+                    $paiement->reference = $reference;
+                    //$paiement->montant = $amount;
+                    $paiement->nom_beat = $nom_beat;
+                    $paiement->id_beat = $beat_id;
+                    $paiement->id_utilisateur = $utilisateur_id;
+                    $paiement->date = now();
+                    $paiement->nom_utilisateur = $nom_utilisateur;
+                    $paiement->save();
                 }
-
-                /* dd(session()->get("userLogged"). " oh"); */
-                
-            }else{
-
-                $paiement->reference = $reference;
-                //$paiement->montant = $amount;
-                $paiement->nom_beat = $nom_beat;
-                $paiement->id_beat = $beat_id;
-                $paiement->id_utilisateur = $utilisateur_id;
-                $paiement->date = now();
-                $paiement->nom_utilisateur = $nom_utilisateur;
-                $paiement->save();
-                
             }
+        } catch (Exception $e) {
+
+            return back()->withErrors([
+                "errorMsg" => "Une erreur s'est produito"
+            ]);
         }
-
-    } catch (Exception $e) {
-
-        return back()->withErrors([
-            "errorMsg" => "Une erreur s'est produito"
-        ]);
-    }
 
 
         try {
@@ -388,44 +394,46 @@ class ClientController extends Controller
 
         $client = new Client();
 
-        //return inertia("Beat_detail")->with("beat", $beat);
+        //return inertia("Beat_detail")->with("beat", $beat);1
 
         $reference = "ref" . time();
 
+        try {
+            //code...
 
-        $url = 'https://gateway.singpay.ga/v1/transaction/api/search/by-reference/' . $reference;
+            $url = 'https://gateway.singpay.ga/v1/transaction/api/search/by-reference/' . $reference;
 
-        $headers = [
-            'accept' => '*/*',
-            'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
-            'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
-            'x-wallet' => '64493b08a2980dcdb93f5529',
-            'Content-Type' => 'application/json',
-        ];
+            $headers = [
+                'accept' => '*/*',
+                'x-client-id' => '3e4fdc12-5f05-4528-abf9-5e31d6fbab89',
+                'x-client-secret' => '3b252661805e6b33a591c56ad8ed0534397978ea1f13dbe3c1fe3d7946f08488',
+                'x-wallet' => '64493b08a2980dcdb93f5529',
+                'Content-Type' => 'application/json',
+            ];
 
-        $response = $client->request('GET', $url, [
-            'headers' => $headers
-        ]);
+            $response = $client->request('GET', $url, [
+                'headers' => $headers
+            ]);
 
-        if ($response->getStatusCode() == 200) {
+            if ($response->getStatusCode() == 200) {
 
-            $responseBody = $response->getBody()->getContents();
-            $responseBodyObj = json_decode($responseBody);
+                $responseBody = $response->getBody()->getContents();
+                $responseBodyObj = json_decode($responseBody);
 
-            //dd($responseBodyObj);
+                //dd($responseBodyObj);
 
-            if ($responseBodyObj->result == "Success") {
+                if ($responseBodyObj->result == "Success") {
 
-                $paiement = new Paiement();
+                    $paiement = new Paiement();
 
-                //$paiement->reference = $reference;
-                //$paiement->date = now();
-                //$paiement->nom_utilisateur = $nom_utilisateur;
-                //$paiement->update();
+                    //$paiement->reference = $reference;
+                    //$paiement->date = now();
+                    //$paiement->nom_utilisateur = $nom_utilisateur;
+                    //$paiement->update();
 
-                $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
+                    $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
-                /* if (isset($paiement->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
+                    /* if (isset($paiement->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
 
                     
                 } else {
@@ -434,14 +442,21 @@ class ClientController extends Controller
 
                     
                 } */
+                }
+
+
+
+                //$paymentLink = $responseBodyObj->link;
+
+                //return Inertia::location($paymentLink);
             }
+            
+        } catch (Exception $e) {
 
-
-            //$paymentLink = $responseBodyObj->link;
-
-            //return Inertia::location($paymentLink);
+            return back()->withErrors([
+                "errorMsg" => "Une erreur s'est produito"
+            ]);
         }
-
 
 
         //return inertia("Beat_paid_verify");
