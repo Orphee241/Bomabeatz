@@ -275,13 +275,7 @@ class ClientController extends Controller
                 // $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
                 $paiementRetrieve = Paiement::where("id_beat", $beat_id)->first();
-
-
-                /*  if(($paiementRetrieve->id_beat)){
-                    dd($paiementRetrieve->id_beat);
-                } */
-
-
+                
                 $paiement = new Paiement();
 
                 //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
@@ -290,11 +284,11 @@ class ClientController extends Controller
 
                 if (isset($paiementRetrieve->id_beat)) {
 
-                    /*  dd("1"); */
 
                     if ($paiementRetrieve->id_beat == $beat_id) {
 
                         $paiement::where("id_beat", $beat_id)->update(["reference" => $reference, "updated_at" => now()]);
+                        
                     } else {
 
                         $paiement->reference = $reference;
@@ -389,8 +383,18 @@ class ClientController extends Controller
         $reference = "ref" . now();
     }
 
-    public function verify()
+    //Confirmer le paiement du beat
+
+    public function beat_paid_confirm(){
+        
+       
+        return inertia("Beat_paid_confirm");
+    }
+
+    public function verify(){
     {
+
+        dd("yo");
 
         $client = new Client();
 
