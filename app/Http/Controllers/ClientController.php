@@ -275,7 +275,7 @@ class ClientController extends Controller
                 // $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
 
                 $paiementRetrieve = Paiement::where("id_beat", $beat_id)->first();
-                
+
                 $paiement = new Paiement();
 
                 //Si la personne connectée == personne qui a fait le paiement, on met à jour la référence et la date
@@ -288,7 +288,6 @@ class ClientController extends Controller
                     if ($paiementRetrieve->id_beat == $beat_id) {
 
                         $paiement::where("id_beat", $beat_id)->update(["reference" => $reference, "updated_at" => now()]);
-                        
                     } else {
 
                         $paiement->reference = $reference;
@@ -369,41 +368,26 @@ class ClientController extends Controller
         }
     }
 
-    /* Lorque le paiement du beat s'est effectué */
+    
+    //Page permettant de confirmer le paiement du beat
+    public function beat_paid_confirm($id)
+    {
 
-    public function beat_paid_verify($id)
+        $paiement = Paiement::find($id);
+
+        return inertia("Beat_paid_confirm")->with("paiement", $paiement);
+    }
+
+    
+    //Traitement backend de la validation du paiement du beat
+    public function verify()
     {
 
         $client = new Client();
 
-        $beat = Beat::find($id);
-
-        //return inertia("Beat_detail")->with("beat", $beat);
-
-        $reference = "ref" . now();
-    }
-
-    //Confirmer le paiement du beat
-
-    public function beat_paid_confirm(){
-        
-       
-        return inertia("Beat_paid_confirm");
-    }
-
-    public function verify(){
-    {
-
-        dd("yo");
-
-        $client = new Client();
-
-        //return inertia("Beat_detail")->with("beat", $beat);1
-
-        $reference = "ref" . time();
+        $reference = "ref1698446895626";
 
         try {
-            //code...
 
             $url = 'https://gateway.singpay.ga/v1/transaction/api/search/by-reference/' . $reference;
 
@@ -419,40 +403,36 @@ class ClientController extends Controller
                 'headers' => $headers
             ]);
 
+
             if ($response->getStatusCode() == 200) {
+
 
                 $responseBody = $response->getBody()->getContents();
                 $responseBodyObj = json_decode($responseBody);
 
-                //dd($responseBodyObj);
-
                 if ($responseBodyObj->result == "Success") {
+
 
                     $paiement = new Paiement();
 
-                    //$paiement->reference = $reference;
-                    //$paiement->date = now();
-                    //$paiement->nom_utilisateur = $nom_utilisateur;
-                    //$paiement->update();
+                    $paiementRetrieve = Paiement::where("reference", $responseBodyObj->reference)->first();
 
-                    $paiementRetrieve = Paiement::where("nom_utilisateur", session()->get("userLogged"))->first();
+                    if (isset($paiementRetrieve->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
+                        
+                        
+                    } else {
 
-                    /* if (isset($paiement->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
+                        $paiement::where("reference", $responseBodyObj->reference)->update(["montant" => $responseBodyObj->amount]);
+                    }
 
-                    
-                } else {
-
-                    $paiement::where("reference", $responseBodyObj->reference)->update(["montant" => $responseBodyObj->amount]);
-
-                    
-                } */
+                    //Redirection vers la page de téléchargement du beat
+                    return Inertia::location(route( "beat_paid", ["id" => $paiementRetrieve->id_beat ]));
                 }
 
-
-
-                //$paymentLink = $responseBodyObj->link;
-
-                //return Inertia::location($paymentLink);
+            } else {
+                return back()->withErrors([
+                    "errorMsg" => "Result: " . $response->getStatusCode()
+                ]);
             }
             
         } catch (Exception $e) {
@@ -462,8 +442,6 @@ class ClientController extends Controller
             ]);
         }
 
-
-        //return inertia("Beat_paid_verify");
     }
 
     public function beat_paid($id)

@@ -1,8 +1,11 @@
 <template>
   <div class="container mt-5">
+    <div v-if="$page.props.flash.successMsg">
+       <!--  {{ useSwalError(errors.errorMsg) }} -->
+      </div>
       <div style="margin-top:6em" class="block">
           <p>Pour continuer, veuillez cliquer sur le bouton ci-dessous s'il vous-plait</p>
-          <button class="btn btn-primary">Continuer</button>
+          <button type="submit" form="payForm" class="btn btn-primary">Continuer</button>
       </div>
 
       
@@ -15,14 +18,15 @@
 </template>
 
 <script setup>
+import { useSwalError, useSwalSuccess } from "../Alerts/alert";
 import { useForm } from "@inertiajs/inertia-vue3";
-import Gona from "../Layouts/Gona.vue";
+/* import Gona from "../Layouts/Gona.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link } from "@inertiajs/inertia-vue3"; */
 
 
 const props = defineProps({
-    beat: Object,
+    paiement: Object,
 })
 
 
