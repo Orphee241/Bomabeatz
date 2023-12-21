@@ -60,7 +60,7 @@
                         <!-- S'il a été effectué -->
                         <div class="col-lg-5" v-else>
                             <a href="https://www.dropbox.com/scl/fi/w3ygdxrs2ea3codivdia8/formations_AGCOM_modif4.jpg?rlkey=3ujb62mwizm2zt1h7aed6vwn2&dl=0" 
-                                style="background-color: rgb(39, 19, 85); color: white;" class="btn btn-small">Télécharger
+                                style="background-color: rgb(39, 19, 85); color: white;" class="btn btn-small"> Télécharger
                                 le
                                 beat au format mp3
                         </a>
