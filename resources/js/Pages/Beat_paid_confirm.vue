@@ -11,6 +11,7 @@
       
       <form @submit.prevent="payer" id="payForm">
         <input hidden v-model="form.reference" type="text" />
+        <input type="file" @input="form.media = $event.target.files[0]" />
 
         <!-- <button btn btn-primary type="submit">Payer</button> -->
     </form>
@@ -33,6 +34,8 @@ const props = defineProps({
 const form = useForm({
  
     reference: "ref" + Date.now(),
+    beat_id: props.paiement.id_beat,
+    media: ""
    
 })
 

@@ -62,9 +62,26 @@ return [
             // ...
             'dropbox' => [
                 'driver' => 'dropbox',
-                'authorization_token' => "sl.BmAw1ivP_j62s4DYYo5Wmwk4shimtr2PepI9ZGpSvoVqSE7mCaV8m5Gc798xBgX7ozTKlEGYJ702DutE-teIuDPHK9J69Qx8qq4UTzjVEr7szlelr3AtI6Tk6lgaTygze1JRhgxTva9z",
+                'token' => "sl.BpIrxvq-A3nxm9_EEgAP535Md9gSmfxO-0h6BRRCnyMIM7BJgFnc7ZtaGXUe2kOYqumKE7MNBf96Lbz3P0Z9sH74qs3leWKzKujq1cQo5eHtosGyUxu0V_XQAQToHKxP-4mdKUzM4Vza",
             ],
         ],
+
+
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => 'ftp-mondomaine.alwaysdata.net',
+            'username' => 'monlogin',
+            'password' => 'monmotdepasse',
+            'root'     => '/www',
+        ],
+
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'DROPBOX_TOKEN' => env('DROPBOX_TOKEN'),
+            'DROPBOX_REFRESH_TOKEN' => env('DROPBOX_REFRESH_TOKEN'),
+        ],
+        
+        
 
 
     ],

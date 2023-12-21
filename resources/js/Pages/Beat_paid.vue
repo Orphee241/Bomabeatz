@@ -59,18 +59,18 @@
                         </div>
                         <!-- S'il a été effectué -->
                         <div class="col-lg-5" v-else>
-                            <button form="payForm" @click="downloadFile"
+                            <a href="https://www.dropbox.com/scl/fi/w3ygdxrs2ea3codivdia8/formations_AGCOM_modif4.jpg?rlkey=3ujb62mwizm2zt1h7aed6vwn2&dl=0" 
                                 style="background-color: rgb(39, 19, 85); color: white;" class="btn btn-small">Télécharger
                                 le
                                 beat au format mp3
-                            </button>
+                        </a>
                         </div>
                     </div>
                     <!-- Si le beat n'est pas payant -->
                     <div v-else class="col-lg-4">
                         <a class="btn btn-small"
                             style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);" download
-                            href="../../../public/Eight.mp3">Télécharger le beat au format mp3</a>
+                            href="Eight.mp3">Télécharger le beat au format mp3</a>
 
                     </div>
                 </div>
@@ -119,10 +119,10 @@ const user = computed(() => {
 
 
 const downloadFile = () => {
-    const fileUrl = "/public/btm.png"
+    const fileUrl = "Eight.mp3"
     const link = document.createElement("a")
     link.href = fileUrl
-    link.download = "btm.png"
+    link.download = "Eight.mp3"
     link.target = "_blank"
     link.click();
 }

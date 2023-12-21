@@ -368,7 +368,7 @@ class ClientController extends Controller
         }
     }
 
-    
+
     //Page permettant de confirmer le paiement du beat
     public function beat_paid_confirm($id)
     {
@@ -378,10 +378,125 @@ class ClientController extends Controller
         return inertia("Beat_paid_confirm")->with("paiement", $paiement);
     }
 
-    
-    //Traitement backend de la validation du paiement du beat
-    public function verify()
+
+    public function uploadToDropbox(Request $request)
     {
+
+        $request->validate([
+            "media"
+        ]);
+
+        $client = new Client();
+
+        $app_key = "i4api15zyttxbsx";
+
+        $app_secret = "laij9u50rdqoxn9";
+
+        $authorization_code = "Wd_31dcVw-UAAAAAAAAARvjirLxxCbUB6EmX4JaxIF8";
+
+        //try {
+            //code...
+
+
+            $url = 'https://api.dropboxapi.com/oauth2/token';
+
+            $header = [
+            //'Authorization' => 'Basic ' . base64_encode($app_key . ':' . $app_secret),
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ]; 
+
+           /*  $data = [
+
+                "code" => $authorization_code,
+                "grant_type" => "authorization_code",
+                "client_id" => $app_key,
+                "client_secret" => $app_secret,
+                //"redirect_uri" => "http://localhost:5173"
+
+
+            ]; */
+
+            $data = [
+
+                "grant_type" => "refresh_token",
+                "refresh_token" => "2YbA56CUidcAAAAAAAAAAQGTuwXDK_U-CwxXcamY3nVYVnMwsrODW_1GmctwAXc7",
+                "client_id" => $app_key,
+            
+
+            ];
+
+            $response = $client->request('POST', $url, [
+                //'headers' => $header,
+                'form_params' => $data
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+                $responseBody = $response->getBody()->getContents();
+                $responseBodyObj = json_decode($responseBody);
+
+                $refresh_token = $responseBodyObj;
+
+                dd($responseBodyObj);  
+
+                $dir = Storage::disk('dropbox')->put("demo.txt", "Bonjour GONA");
+                //$i4 = Storage::disk('dropbox')->get('1.jpeg');
+                //$dir = Storage::disk('dropbox')->get('/Application/Gonabeatz/4.jpeg');
+                //$dir = Storage::disk('dropbox')->makeDirectory('yyyyyyy');
+                dd($dir);
+                //dd($i4." ".$i3);
+                
+                $media = $request->file("media");
+
+
+                // Récupérer le fichier soumis via le formulaire
+                $file = $request->file('fichier');
+
+                if ($media) {
+                    // Nom du fichier sur Dropbox (vous pouvez le personnaliser)
+                    $nomFichierDropbox = uniqid() . '.' . $media->getClientOriginalExtension();
+
+                    // Enregistrer le fichier dans le système de fichiers Dropbox
+                    Storage::disk('dropbox')->put($nomFichierDropbox, file_get_contents($media));
+                   // Storage::disk('dropbox')->put('/path/to/file', file_get_contents('local/path/to/file'));
+
+
+                     dd("done");
+                } else {
+                    dd("no media");
+                    return redirect()->back()->with('error', 'Aucun fichier sélectionné.');
+                    dd("no media");
+                }
+             } else {
+
+                dd($response->getStatusCode()); 
+            } 
+        /* } catch (Exception $e) {
+            
+            return back()->withErrors([
+                
+                "errorMsg" => "Err: " . $e->getMessage()
+                
+            ]);
+        } */
+
+
+
+        //Storage::disk('dropbox')->put('https://www.dropbox.com/scl/fi/w3ygdxrs2ea3codivdia8/formations_AGCOM_modif4.jpg?rlkey=3ujb62mwizm2zt1h7aed6vwn2&dl=0', 'Contenu du fichier');
+        // Redirigez ou retournez une réponse en conséquence
+
+
+    }
+
+    //Traitement backend de la validation du paiement du beat
+    public function verify(Request $request)
+    {
+
+
+        $request->validate([
+            "beat_id"
+        ]);
+
+        $beat_id = $request->beat_id;
 
         $client = new Client();
 
@@ -418,30 +533,32 @@ class ClientController extends Controller
                     $paiementRetrieve = Paiement::where("reference", $responseBodyObj->reference)->first();
 
                     if (isset($paiementRetrieve->montant) && $paiementRetrieve->nom_utilisateur == session()->get("userLogged")) {
-                        
-                        
+
+                        return back()->withErrors([
+                            "errorMsg" => "Votre paiement a bien été effectué. Malheureusement, vous ne pouvez plus accéder à cette page.<br/>
+                            Rendez-vous dans votre compte pour télécharger le beat."
+
+                        ]);
                     } else {
 
                         $paiement::where("reference", $responseBodyObj->reference)->update(["montant" => $responseBodyObj->amount]);
+
+                        //Redirection vers la page de téléchargement du beat
+                        return Inertia::location(route("beat_paid", ["id" => $paiementRetrieve->id_beat]));
                     }
-
-                    //Redirection vers la page de téléchargement du beat
-                    return Inertia::location(route( "beat_paid", ["id" => $paiementRetrieve->id_beat ]));
                 }
-
             } else {
+
                 return back()->withErrors([
                     "errorMsg" => "Result: " . $response->getStatusCode()
                 ]);
             }
-            
         } catch (Exception $e) {
 
             return back()->withErrors([
-                "errorMsg" => "Une erreur s'est produito"
+                "errorMsg" => "Une erreur s'est produita" . $e->getMessage()
             ]);
         }
-
     }
 
     public function beat_paid($id)
