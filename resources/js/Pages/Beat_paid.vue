@@ -70,7 +70,7 @@
                     <div v-else class="col-lg-4">
                         <a class="btn btn-small"
                             style="padding: 4px 15px;background-color: rgb(39, 19, 85); color: rgb(255, 255, 255);" download
-                            href="Eight.mp3">Télécharger le beat au format mp3</a>
+                            href="Eight.mp3">Télécharger le beat au format mp3 yes</a>
 
                     </div>
                 </div>
