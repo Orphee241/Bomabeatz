@@ -19,34 +19,17 @@
 
     <!-- Fonts -->
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    {{-- TinyMCE --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
 
 
 
     {{-- Ziggy --}}
     @routes
 
+    @vite(['resources/js/app.js'])
 
-    @vite('resources/js/app.js') @inertiaHead
-    @vite('resources/css/app.css') @inertiaHead
-    @vite('resources/assets/css/style.css') @inertiaHead
-    @vite('resources/assets/js/main.js') @inertiaHead
-    @vite('resources/assets/vendor/bootstrap/css/bootstrap.min.css') @inertiaHead
-    @vite('resources/assets/vendor/bootstrap-icons/bootstrap-icons.css') @inertiaHead
-    @vite('resources/assets/vendor/boxicons/css/boxicons.min.css') @inertiaHead
-    @vite('resources/assets/vendor/quill/quill.snow.css') @inertiaHead
-    @vite('resources/assets/vendor/quill.bubble.css') @inertiaHead
-    @vite('resources/assets/vendor/remixicon/remixicon.css') @inertiaHead
-    @vite('resources/assets/vendor/simple-datatables/style.css') @inertiaHead
-    @vite('resources/assets/vendor/simple-datatables/style.css') @inertiaHead
-
-    {{-- Assets 2 --}}
-    @vite('resources/assets2/vendor/bootstrap/css/bootstrap.min.css') @inertiaHead
-    @vite('resources/assets2/vendor/bootstrap-icons/bootstrap-icons.css') @inertiaHead
-    {{-- @vite('resources/assets2/vendor/aos/aos.css') @inertiaHead --}}
-    @vite('resources/assets2/vendor/glightbox/css/glightbox.min.css') @inertiaHead
-    @vite('resources/assets2/vendor/swiper/swiper-bundle.min.css') @inertiaHead
-    @vite('resources/assets2/css/main.css') @inertiaHead
-
+    
 
 </head>
 
@@ -74,6 +57,8 @@
     @vite('resources/assets2/vendor/php-email-form/validate.js') @inertiaHead
     @vite('resources/assets2/js/main.js') @inertiaHead --}}
 
+
+    
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 </body>

@@ -80,22 +80,7 @@
                 </div>
                 <div style="width: 50%" class="row">
                     <div class="buttonSection col-lg-7">
-                        <vue-plyr ref="plyr">
-                            <audio
-                                style="visibility: hidden"
-                                crossorigin
-                                playsinline
-                            >
-                                <source
-                                    src="../../../public/Eight.mp3"
-                                    type="audio/mp3"
-                                />
-                                <source
-                                    src="/path/to/audio.ogg"
-                                    type="audio/ogg"
-                                />
-                            </audio>
-                        </vue-plyr>
+ 
                         <p>
                             <i
                                 style="font-size: 50px"
